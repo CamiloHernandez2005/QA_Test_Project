@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg"
-  >
+  <div class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
     <div class="flex-auto p-4">
       <div class="flex flex-wrap">
         <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
@@ -23,11 +21,7 @@
       </div>
       <p class="text-sm text-blueGray-400 mt-4">
         <span class="mr-2" :class="[statPercentColor]">
-          <i
-            :class="[
-              statArrow === 'up' ? `fas fa-arrow-up` : `fas fa-arrow-down`,
-            ]"
-          ></i>
+          <i :class="[statArrow === 'up' ? `fas fa-arrow-up` : `fas fa-arrow-down`]"></i>
           {{ statPercent }}%
         </span>
         <span class="whitespace-nowrap">{{ statDescripiron }}</span>
@@ -37,47 +31,47 @@
 </template>
 <script>
 export default {
-  name: "card-stats",
+  name: 'card-stats',
   props: {
     statSubtitle: {
       type: String,
-      default: "Traffic",
+      default: 'Traffic',
     },
     statTitle: {
       type: String,
-      default: "350,897",
+      default: '350,897',
     },
     statArrow: {
-      default: "up",
+      default: 'up',
       validator: function (value) {
         // The value must match one of these strings
-        return ["up", "down"].indexOf(value) !== -1;
+        return ['up', 'down'].indexOf(value) !== -1
       },
     },
     statPercent: {
       type: String,
-      default: "3.48",
+      default: '3.48',
     },
     // can be any of the text color utilities
     // from tailwindcss
     statPercentColor: {
       type: String,
-      default: "text-emerald-500",
+      default: 'text-emerald-500',
     },
     statDescripiron: {
       type: String,
-      default: "Since last month",
+      default: 'Since last month',
     },
     statIconName: {
       type: String,
-      default: "far fa-chart-bar",
+      default: 'far fa-chart-bar',
     },
     // can be any of the background color utilities
     // from tailwindcss
     statIconColor: {
       type: String,
-      default: "bg-red-500",
+      default: 'bg-red-500',
     },
   },
-};
+}
 </script>

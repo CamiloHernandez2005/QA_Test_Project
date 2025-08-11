@@ -6,10 +6,10 @@ import Register from '@/views/auth/Register.vue'
 import Dashboard from '@/views/admin/Dashboard.vue'
 
 const routes = [
-  { path: '/', component:Index},
-  { path: '/auth/login', component:Login},
-  { path: '/auth/register', component:Register} ,
-  { path: '/admin/dashboard', component:Dashboard }
+  { path: '/', component: Index },
+  { path: '/auth/login', component: Login },
+  { path: '/auth/register', component: Register },
+  { path: '/admin/dashboard', component: Dashboard },
 ]
 
 const router = createRouter({

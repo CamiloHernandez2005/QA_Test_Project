@@ -81,10 +81,7 @@
 
         <ul class="md:flex-col md:min-w-full flex flex-col list-none">
           <li class="items-center">
-            <RouterLink
-              to="/admin/dashboard"
-              v-slot="{ href, navigate, isActive }"
-            >
+            <RouterLink to="/admin/dashboard" v-slot="{ href, navigate, isActive }">
               <a
                 :href="href"
                 @click="navigate"
@@ -105,10 +102,7 @@
           </li>
 
           <li class="items-center">
-            <RouterLink
-              to="/admin/settings"
-              v-slot="{ href, navigate, isActive }"
-            >
+            <RouterLink to="/admin/settings" v-slot="{ href, navigate, isActive }">
               <a
                 :href="href"
                 @click="navigate"
@@ -129,10 +123,7 @@
           </li>
 
           <li class="items-center">
-            <RouterLink
-              to="/admin/tables"
-              v-slot="{ href, navigate, isActive }"
-            >
+            <RouterLink to="/admin/tables" v-slot="{ href, navigate, isActive }">
               <a
                 :href="href"
                 @click="navigate"
@@ -200,9 +191,7 @@
               class="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
               to="/auth/register"
             >
-              <i
-                class="fas fa-clipboard-list text-blueGray-300 mr-2 text-sm"
-              ></i>
+              <i class="fas fa-clipboard-list text-blueGray-300 mr-2 text-sm"></i>
               Register
             </RouterLink>
           </li>
@@ -256,9 +245,7 @@
               target="_blank"
               class="text-blueGray-700 hover:text-blueGray-500 text-sm block mb-4 no-underline font-semibold"
             >
-              <i
-                class="fas fa-paint-brush mr-2 text-blueGray-300 text-base"
-              ></i>
+              <i class="fas fa-paint-brush mr-2 text-blueGray-300 text-base"></i>
               Styles
             </a>
           </li>
@@ -347,23 +334,23 @@
 ); }
 
 <script>
-import NotificationDropdown from "@/components/Dropdowns/NotificationDropdown.vue";
-import UserDropdown from "@/components/Dropdowns/UserDropdown.vue";
+import NotificationDropdown from '@/components/Dropdowns/NotificationDropdown.vue'
+import UserDropdown from '@/components/Dropdowns/UserDropdown.vue'
 
 export default {
   data() {
     return {
-      collapseShow: "hidden",
-    };
+      collapseShow: 'hidden',
+    }
   },
   methods: {
     toggleCollapseShow: function (classes) {
-      this.collapseShow = classes;
+      this.collapseShow = classes
     },
   },
   components: {
     NotificationDropdown,
     UserDropdown,
   },
-};
+}
 </script>

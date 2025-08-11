@@ -2,9 +2,7 @@
   <nav
     class="top-0 fixed z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-white shadow"
   >
-    <div
-      class="container px-4 mx-auto flex flex-wrap items-center justify-between"
-    >
+    <div class="container px-4 mx-auto flex flex-wrap items-center justify-between">
       <div
         class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
       >
@@ -35,9 +33,7 @@
               class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs uppercase font-bold"
               href="https://www.creative-tim.com/learning-lab/tailwind/vue/overview/notus?ref=vn-index-navbar"
             >
-              <i
-                class="text-blueGray-400 far fa-file-alt text-lg leading-lg mr-2"
-              />
+              <i class="text-blueGray-400 far fa-file-alt text-lg leading-lg mr-2" />
               Docs
             </a>
           </li>
@@ -94,21 +90,21 @@
 </template>
 
 <script>
-import IndexDropdown from "@/components/Dropdowns/IndexDropdown.vue";
+import IndexDropdown from '@/components/Dropdowns/IndexDropdown.vue'
 
 export default {
   data() {
     return {
       navbarOpen: false,
-    };
+    }
   },
   methods: {
     setNavbarOpen: function () {
-      this.navbarOpen = !this.navbarOpen;
+      this.navbarOpen = !this.navbarOpen
     },
   },
   components: {
     IndexDropdown,
   },
-};
+}
 </script>

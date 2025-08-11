@@ -85,16 +85,10 @@
             <th
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
             >
-              <img
-                :src="bootstrap"
-                class="h-12 w-12 bg-white rounded-full border"
-                alt="..."
-              />
+              <img :src="bootstrap" class="h-12 w-12 bg-white rounded-full border" alt="..." />
               <span
                 class="ml-3 font-bold"
-                :class="[
-                  color === 'light' ? 'text-blueGray-600' : 'text-white',
-                ]"
+                :class="[color === 'light' ? 'text-blueGray-600' : 'text-white']"
               >
                 Argon Design System
               </span>
@@ -141,11 +135,9 @@
               <div class="flex items-center">
                 <span class="mr-2">60%</span>
                 <div class="relative w-full">
-                  <div
-                    class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
-                  >
+                  <div class="overflow-hidden h-2 text-xs flex rounded bg-red-200">
                     <div
-                      style="width: 60%;"
+                      style="width: 60%"
                       class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
                     ></div>
                   </div>
@@ -162,16 +154,10 @@
             <th
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
             >
-              <img
-                :src="angular"
-                class="h-12 w-12 bg-white rounded-full border"
-                alt="..."
-              />
+              <img :src="angular" class="h-12 w-12 bg-white rounded-full border" alt="..." />
               <span
                 class="ml-3 font-bold"
-                :class="[
-                  color === 'light' ? 'text-blueGray-600' : 'text-white',
-                ]"
+                :class="[color === 'light' ? 'text-blueGray-600' : 'text-white']"
               >
                 Angular Now UI Kit PRO
               </span>
@@ -219,11 +205,9 @@
               <div class="flex items-center">
                 <span class="mr-2">100%</span>
                 <div class="relative w-full">
-                  <div
-                    class="overflow-hidden h-2 text-xs flex rounded bg-emerald-200"
-                  >
+                  <div class="overflow-hidden h-2 text-xs flex rounded bg-emerald-200">
                     <div
-                      style="width: 100%;"
+                      style="width: 100%"
                       class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500"
                     ></div>
                   </div>
@@ -240,16 +224,10 @@
             <th
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
             >
-              <img
-                :src="sketch"
-                class="h-12 w-12 bg-white rounded-full border"
-                alt="..."
-              />
+              <img :src="sketch" class="h-12 w-12 bg-white rounded-full border" alt="..." />
               <span
                 class="ml-3 font-bold"
-                :class="[
-                  color === 'light' ? 'text-blueGray-600' : 'text-white',
-                ]"
+                :class="[color === 'light' ? 'text-blueGray-600' : 'text-white']"
               >
                 Black Dashboard Sketch
               </span>
@@ -296,11 +274,9 @@
               <div class="flex items-center">
                 <span class="mr-2">73%</span>
                 <div class="relative w-full">
-                  <div
-                    class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
-                  >
+                  <div class="overflow-hidden h-2 text-xs flex rounded bg-red-200">
                     <div
-                      style="width: 73%;"
+                      style="width: 73%"
                       class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
                     ></div>
                   </div>
@@ -317,16 +293,10 @@
             <th
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
             >
-              <img
-                :src="react"
-                class="h-12 w-12 bg-white rounded-full border"
-                alt="..."
-              />
+              <img :src="react" class="h-12 w-12 bg-white rounded-full border" alt="..." />
               <span
                 class="ml-3 font-bold"
-                :class="[
-                  color === 'light' ? 'text-blueGray-600' : 'text-white',
-                ]"
+                :class="[color === 'light' ? 'text-blueGray-600' : 'text-white']"
               >
                 React Material Dashboard
               </span>
@@ -373,11 +343,9 @@
               <div class="flex items-center">
                 <span class="mr-2">90%</span>
                 <div class="relative w-full">
-                  <div
-                    class="overflow-hidden h-2 text-xs flex rounded bg-teal-200"
-                  >
+                  <div class="overflow-hidden h-2 text-xs flex rounded bg-teal-200">
                     <div
-                      style="width: 90%;"
+                      style="width: 90%"
                       class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500"
                     ></div>
                   </div>
@@ -394,16 +362,10 @@
             <th
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
             >
-              <img
-                :src="vue"
-                class="h-12 w-12 bg-white rounded-full border"
-                alt="..."
-              />
+              <img :src="vue" class="h-12 w-12 bg-white rounded-full border" alt="..." />
               <span
                 class="ml-3 font-bold"
-                :class="[
-                  color === 'light' ? 'text-blueGray-600' : 'text-white',
-                ]"
+                :class="[color === 'light' ? 'text-blueGray-600' : 'text-white']"
               >
                 React Material Dashboard
               </span>
@@ -451,11 +413,9 @@
               <div class="flex items-center">
                 <span class="mr-2">100%</span>
                 <div class="relative w-full">
-                  <div
-                    class="overflow-hidden h-2 text-xs flex rounded bg-emerald-200"
-                  >
+                  <div class="overflow-hidden h-2 text-xs flex rounded bg-emerald-200">
                     <div
-                      style="width: 100%;"
+                      style="width: 100%"
                       class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500"
                     ></div>
                   </div>
@@ -474,18 +434,18 @@
   </div>
 </template>
 <script>
-import TableDropdown from "@/components/Dropdowns/TableDropdown.vue";
+import TableDropdown from '@/components/Dropdowns/TableDropdown.vue'
 
-import bootstrap from "@/assets/img/bootstrap.jpg";
-import angular from "@/assets/img/angular.jpg";
-import sketch from "@/assets/img/sketch.jpg";
-import react from "@/assets/img/react.jpg";
-import vue from "@/assets/img/react.jpg";
+import bootstrap from '@/assets/img/bootstrap.jpg'
+import angular from '@/assets/img/angular.jpg'
+import sketch from '@/assets/img/sketch.jpg'
+import react from '@/assets/img/react.jpg'
+import vue from '@/assets/img/react.jpg'
 
-import team1 from "@/assets/img/team-1-800x800.jpg";
-import team2 from "@/assets/img/team-2-800x800.jpg";
-import team3 from "@/assets/img/team-3-800x800.jpg";
-import team4 from "@/assets/img/team-4-470x470.png";
+import team1 from '@/assets/img/team-1-800x800.jpg'
+import team2 from '@/assets/img/team-2-800x800.jpg'
+import team3 from '@/assets/img/team-3-800x800.jpg'
+import team4 from '@/assets/img/team-4-470x470.png'
 
 export default {
   data() {
@@ -499,19 +459,19 @@ export default {
       team2,
       team3,
       team4,
-    };
+    }
   },
   components: {
     TableDropdown,
   },
   props: {
     color: {
-      default: "light",
+      default: 'light',
       validator: function (value) {
         // The value must match one of these strings
-        return ["light", "dark"].indexOf(value) !== -1;
+        return ['light', 'dark'].indexOf(value) !== -1
       },
     },
   },
-};
+}
 </script>
