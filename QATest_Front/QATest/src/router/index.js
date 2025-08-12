@@ -1,15 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import Index from '@/views/Index.vue'
 import Login from '@/views/auth/Login.vue'
 import Register from '@/views/auth/Register.vue'
 import Dashboard from '@/views/admin/Dashboard.vue'
+import Settings from '@/views/admin/Settings.vue'
+import Tables from '@/views/admin/Tables.vue'
 
 const routes = [
-  { path: '/', component: Index },
   { path: '/auth/login', component: Login },
   { path: '/auth/register', component: Register },
   { path: '/admin/dashboard', component: Dashboard },
+  { path: '/admin/settings', component: Settings },
+  { path: '/admin/tables', component: Tables },
 ]
 
 const router = createRouter({

@@ -20,8 +20,8 @@
                   class="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                   type="button"
                 >
-                  <img alt="..." class="w-5 mr-1" :src="github" />
-                  Github
+                  <img alt="..." class="w-5 mr-1" :src="facebook" />
+                  Facebook
                 </button>
                 <button
                   class="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
@@ -87,12 +87,15 @@
                 </div>
 
                 <div class="text-center mt-6">
+                   <RouterLink to="/auth/login" class="text-blueGray-200">
                   <button
                     class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                     type="button"
                   >
                     Create Account
                   </button>
+                  </RouterLink>
+                  
                 </div>
               </form>
             </div>
@@ -109,13 +112,13 @@
 import FooterComponent from '@/components/Footers/FooterSmall.vue'
 import AuthNavbar from '@/components/Navbars/AuthNavbar.vue'
 import registerBg2 from '@/assets/img/register_bg_2.png'
-import github from '@/assets/img/github.svg'
+import facebook from '@/assets/img/facebook.svg'
 import google from '@/assets/img/google.svg'
 
 export default {
   data() {
     return {
-      github,
+      facebook,
       google,
       registerBg2,
     }
