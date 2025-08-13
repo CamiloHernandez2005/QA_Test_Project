@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TestDTO {
+    private String url;
     private String username;
     private String password;
     private String product;

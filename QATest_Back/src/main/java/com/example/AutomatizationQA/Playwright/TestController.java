@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/tests")
@@ -23,7 +20,7 @@ public class TestController {
             Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
             Page page = browser.newPage();
 
-            page.navigate("http://192.168.2.64:8444/login");
+            page.navigate(request.getUrl());
 
             page.fill("input[name=\"username\"]", request.getUsername());
             page.fill("input[name=\"password\"]", request.getPassword());
