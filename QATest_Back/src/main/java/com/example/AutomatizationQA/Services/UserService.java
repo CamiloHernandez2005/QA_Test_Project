@@ -87,7 +87,7 @@ public class UserService {
         return new LoginResponse(user.getUsername(), token);
     }
 
-    private UserResponse toResponse(User user) {
+    public UserResponse toResponse(User user) {
         UserResponse res = new UserResponse();
         res.setId(user.getId());
         res.setUsername(user.getUsername());

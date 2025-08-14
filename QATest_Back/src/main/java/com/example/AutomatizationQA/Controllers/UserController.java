@@ -39,10 +39,6 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/health")
-    public String health() {
-        return "Health World!";
-    }
 
 }
 

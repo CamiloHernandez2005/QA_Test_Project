@@ -1,10 +1,12 @@
 package com.example.AutomatizationQA.DTOs;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
+@Builder
 public class UserRequest {
     private String fullName;
     private String username;
