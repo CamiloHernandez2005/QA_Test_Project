@@ -1,5 +1,6 @@
 package com.example.AutomatizationQA.Services;
 
+import com.example.AutomatizationQA.Config.CustomExceptions;
 import com.example.AutomatizationQA.Config.JwtService;
 import com.example.AutomatizationQA.DTOs.GoogleToken;
 import com.example.AutomatizationQA.DTOs.UserRequest;
@@ -22,40 +23,35 @@ public class AuthService {
     private final JwtService jwtService;
 
     public String authenticateWithGoogle(GoogleToken googleTokenDTO) throws Exception {
-        try {
-            GoogleIdToken.Payload payload = googleTokenService.verifyToken(googleTokenDTO.getToken());
-            if (payload == null) {
-                throw new Exception("Invalid Google token");
-            }
-
-            String email = payload.getEmail();
-            String fullName = (String) payload.get("name");
-            String username = email.split("@")[0];
-
-            Optional<User> existingUserOpt = userRepository.findByEmail(email);
-
-            UserResponse userDTO;
-            if (existingUserOpt.isPresent()) {
-                userDTO = userService.toResponse(existingUserOpt.get());
-            } else {
-                UserRequest newUserRequest = UserRequest.builder()
-                        .username(username)
-                        .email(email)
-                        .fullName(fullName)
-                        .status(true)
-                        .build();
-
-                userDTO = userService.createUser(newUserRequest);
-            }
-
-            if (!userDTO.isStatus()) {
-                throw new Exception("User is inactive");
-            }
-
-            return jwtService.generateToken(userDTO.getUsername());
-
-        } catch (Exception e) {
-            throw new Exception("Google authentication failed: " + e.getMessage(), e);
+        GoogleIdToken.Payload payload = googleTokenService.verifyToken(googleTokenDTO.getToken());
+        if (payload == null) {
+            throw new CustomExceptions.InvalidTokenException("Invalid Google token");
         }
+
+        String email = payload.getEmail();
+        String fullName = (String) payload.get("name");
+        String username = email.split("@")[0];
+
+        Optional<User> existingUserOpt = userRepository.findByEmail(email);
+
+        UserResponse userDTO;
+        if (existingUserOpt.isPresent()) {
+            userDTO = userService.toResponse(existingUserOpt.get());
+        } else {
+            UserRequest newUserRequest = UserRequest.builder()
+                    .username(username)
+                    .email(email)
+                    .fullName(fullName)
+                    .status(true)
+                    .build();
+
+            userDTO = userService.createUser(newUserRequest);
+        }
+
+        if (!userDTO.getStatus()) {
+            throw new CustomExceptions.InactiveUserException("User is inactive");
+        }
+
+        return jwtService.generateToken(userDTO.getUsername());
     }
 }

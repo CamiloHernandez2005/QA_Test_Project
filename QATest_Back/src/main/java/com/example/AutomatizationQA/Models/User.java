@@ -30,9 +30,8 @@ public class User {
     private String password;
 
     @Column
-    private boolean status;
+    private Boolean status;
 
     @Column(name = "last_login")
     private LocalDateTime lastLogin;
 }
-

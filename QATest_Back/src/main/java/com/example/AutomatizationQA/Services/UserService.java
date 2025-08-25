@@ -1,5 +1,6 @@
 package com.example.AutomatizationQA.Services;
 
+import com.example.AutomatizationQA.Config.CustomExceptions;
 import com.example.AutomatizationQA.DTOs.*;
 import com.example.AutomatizationQA.Models.User;
 import com.example.AutomatizationQA.Repositorys.UserRepository;
@@ -19,21 +20,26 @@ public class UserService {
     private final JwtService jwtService;
 
     public UserResponse createUser(UserRequest request) {
+        if (request.getUsername() == null || request.getUsername().isEmpty()) {
+            throw new CustomExceptions.BadRequestException("El nombre de usuario es obligatorio");
+        }
+
         User user = User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .email(request.getEmail())
                 .fullName(request.getFullName())
-                .status(request.getStatus())
+                .status(true)
                 .lastLogin(request.getLastLogin())
                 .build();
+
         userRepository.save(user);
         return toResponse(user);
     }
 
     public UserResponse updateUser(Long id, UserRequest request) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new CustomExceptions.UserNotFoundException("Usuario no encontrado"));
 
         if (request.getUsername() != null && !request.getUsername().isEmpty()) {
             user.setUsername(request.getUsername());
@@ -63,8 +69,10 @@ public class UserService {
         return toResponse(user);
     }
 
-
     public void deleteUser(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new CustomExceptions.UserNotFoundException("Usuario no encontrado");
+        }
         userRepository.deleteById(id);
     }
 
@@ -76,16 +84,16 @@ public class UserService {
 
     public LoginResponse login(LoginRequest request) {
         User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new RuntimeException("Usuario o contraseña inválidos"));
+                .orElseThrow(() -> new CustomExceptions.InvalidCredentialsException("Usuario inválido"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Usuario o contraseña inválidos");
+            throw new CustomExceptions.UnauthorizedAccessException("Contraseña inválida");
         }
 
         String token = jwtService.generateToken(user.getUsername());
-
         return new LoginResponse(user.getUsername(), token);
     }
+
 
     public UserResponse toResponse(User user) {
         UserResponse res = new UserResponse();
