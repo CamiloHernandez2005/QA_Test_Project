@@ -1,6 +1,5 @@
 <template>
   <div>
-    <sidebar />
     <div class="relative md:ml-64 bg-blueGray-100">
       <admin-navbar />
       <header-stats />
@@ -23,18 +22,14 @@
 </template>
 
 <script>
-import Sidebar from "@/components/Sidebar/Sidebar.vue";
 import AdminNavbar from "@/components/Navbars/AdminNavbar.vue";
-import HeaderStats from "@/components/Headers/HeaderStats.vue";
 import FooterAdmin from "@/components/Footers/FooterAdmin.vue";
 import CardTable from '@/components/Cards/CardTable.vue';
 
 export default {
   name: 'tables-page',
   components: {
-    Sidebar,
     AdminNavbar,
-    HeaderStats,
     FooterAdmin,
     CardTable
   }
