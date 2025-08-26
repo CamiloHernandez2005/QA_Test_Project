@@ -1,0 +1,101 @@
+<template>
+  <div>
+      <div class="px-4 md:px-10 mx-auto w-full -m-4">
+        <div class="card">
+          <DataTable v-model:expandedRowGroups="expandedRowGroups" :value="customers" tableStyle="min-width: 50rem"
+            expandableRowGroups rowGroupMode="subheader" groupRowsBy="representative.name"
+            @rowgroup-expand="onRowGroupExpand" @rowgroup-collapse="onRowGroupCollapse" sortMode="single"
+            sortField="representative.name" :sortOrder="1">
+            <template #groupheader="slotProps">
+              <img :alt="slotProps.data.representative.name"
+                :src="`https://primefaces.org/cdn/primevue/images/avatar/${slotProps.data.representative.image}`"
+                width="32" style="vertical-align: middle; display: inline-block" class="ml-2" />
+              <span class="align-middle ml-2 font-bold leading-normal">{{ slotProps.data.representative.name }}</span>
+            </template>
+            <Column field="representative.name" header="Representative"></Column>
+            <Column field="name" header="Name" style="width: 20%"></Column>
+            <Column field="country" header="Country" style="width: 20%">
+              <template #body="slotProps">
+                <div class="flex items-center gap-2">
+                  <img alt="flag" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png"
+                    :class="`flag flag-${slotProps.data.country.code}`" style="width: 24px" />
+                  <span>{{ slotProps.data.country.name }}</span>
+                </div>
+              </template>
+            </Column>
+            <Column field="company" header="Company" style="width: 20%"></Column>
+            <Column field="status" header="Status" style="width: 20%">
+              <template #body="slotProps">
+                <Tag :value="slotProps.data.status" :severity="getSeverity(slotProps.data.status)" />
+              </template>
+            </Column>
+            <Column field="date" header="Date" style="width: 20%"></Column>
+            <template #groupfooter="slotProps">
+              <div class="flex justify-end font-bold w-full">Total Customers: {{
+                calculateCustomerTotal(slotProps.data.representative.name) }}</div>
+            </template>
+          </DataTable>
+        </div>
+      </div>
+
+      <div class="px-4 md:px-10 mx-auto w-full -m-24">
+        <FooterAdmin />
+      </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useToast } from 'primevue/usetoast';
+import { CustomerService } from '@/service/CustomerService'
+import FooterAdmin from "@/components/Footers/FooterAdmin.vue"
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
+import Tag from 'primevue/tag';
+
+const customers = ref();
+
+onMounted(() => {
+    CustomerService.getCustomersMedium().then((data) => (customers.value = data));
+});
+const expandedRowGroups = ref();
+const toast = useToast();
+const onRowGroupExpand = (event) => {
+    toast.add({ severity: 'info', summary: 'Row Group Expanded', detail: 'Value: ' + event.data, life: 3000 });
+};
+const onRowGroupCollapse = (event) => {
+    toast.add({ severity: 'success', summary: 'Row Group Collapsed', detail: 'Value: ' + event.data, life: 3000 });
+};
+const calculateCustomerTotal = (name) => {
+    let total = 0;
+
+    if (customers.value) {
+        for (let customer of customers.value) {
+            if (customer.representative.name === name) {
+                total++;
+            }
+        }
+    }
+
+    return total;
+};
+const getSeverity = (status) => {
+    switch (status) {
+        case 'unqualified':
+            return 'danger';
+
+        case 'qualified':
+            return 'success';
+
+        case 'new':
+            return 'info';
+
+        case 'negotiation':
+            return 'warn';
+
+        case 'renewal':
+            return null;
+    }
+};
+
+</script>
