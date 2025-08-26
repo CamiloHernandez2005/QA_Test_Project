@@ -1,6 +1,6 @@
 <template>
   <div>
-      <div class="px-4 md:px-10 mx-auto w-full -m-4">
+      <div class="px-4 w-full mt-2">
         <div class="card">
           <DataTable v-model:expandedRowGroups="expandedRowGroups" :value="customers" tableStyle="min-width: 50rem"
             expandableRowGroups rowGroupMode="subheader" groupRowsBy="representative.name"
