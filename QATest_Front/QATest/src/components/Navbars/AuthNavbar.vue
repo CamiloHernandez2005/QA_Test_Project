@@ -1,54 +1,68 @@
 <template>
-  <nav class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg">
-    <div class="container px-4 mx-auto flex flex-wrap items-center justify-between">
-      <div class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
+  <nav class="fixed top-0 z-50 w-full flex flex-wrap items-center justify-between px-4 py-3 bg-slate-800">
+    <div class="container mx-auto flex flex-wrap items-center justify-between">
+      <!-- Logo -->
+      <div class="flex justify-between items-center w-full lg:w-auto">
         <RouterLink
-          class="text-white text-sm font-bold leading-relazxed inline-block mr-4 py-2 whitespace-nowrap uppercase"
-          to="/auth/login">
+          class="text-white text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase"
+          to="/">
           AXEXO
         </RouterLink>
+        <!-- Mobile toggle -->
         <button
-          class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
-          type="button" v-on:click="setNavbarOpen">
-          <i class="text-white fas fa-bars"></i>
+          class="lg:hidden text-white text-xl p-2 rounded-md hover:bg-slate-700"
+          type="button"
+          @click="setNavbarOpen"
+        >
+          <i class="fas fa-bars"></i>
         </button>
       </div>
-      <div class="lg:flex flex-grow items-center bg-white lg:bg-opacity-0 lg:shadow-none"
-        :class="[navbarOpen ? 'block rounded shadow-lg' : 'hidden']" id="example-navbar-warning">
 
+      <!-- Links -->
+      <div
+        class="lg:flex flex-grow items-center lg:bg-transparent"
+        :class="[navbarOpen ? 'block bg-white rounded shadow-lg mt-2 p-2' : 'hidden']"
+      >
         <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+          <!-- Facebook -->
           <li class="flex items-center">
-          </li>
-          <li class="flex items-center">
-            <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-              href="https://www.facebook.com/emidatechnologies/" target="_blank">
-              <i class="lg:text-blueGray-200 text-blueGray-400 fab fa-facebook text-lg leading-lg" />
-              <span class="lg:hidden inline-block ml-2">Share</span>
+            <a
+              class="text-slate-700 lg:text-white lg:hover:text-slate-300 px-3 py-2 flex items-center text-xs uppercase font-bold"
+              href="https://www.facebook.com/emidatechnologies/"
+              target="_blank"
+            >
+              <i class="fab fa-facebook text-lg leading-lg lg:text-slate-300 text-slate-500"></i>
+              <span class="lg:hidden ml-2">Share</span>
             </a>
           </li>
-
+          <!-- X / Twitter -->
           <li class="flex items-center">
-            <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-              href="https://x.com/emidatech" target="_blank">
-              <i class="lg:text-blueGray-200 text-blueGray-400 fab fa-x text-lg leading-lg" />
-              <span class="lg:hidden inline-block ml-2">Tweet</span>
+            <a
+              class="text-slate-700 lg:text-white lg:hover:text-slate-300 px-3 py-2 flex items-center text-xs uppercase font-bold"
+              href="https://x.com/emidatech"
+              target="_blank"
+            >
+              <i class="fab fa-x-twitter text-lg leading-lg lg:text-slate-300 text-slate-500"></i>
+              <span class="lg:hidden ml-2">Tweet</span>
             </a>
           </li>
-
+          <!-- LinkedIn -->
           <li class="flex items-center">
-            <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-              href="https://www.linkedin.com/company/emidatechnologies" target="_blank">
-              <i class="lg:text-blueGray-200 text-blueGray-400 fab fa-linkedin text-lg leading-lg" />
-              <span class="lg:hidden inline-block ml-2">Star</span>
+            <a
+              class="text-slate-700 lg:text-white lg:hover:text-slate-300 px-3 py-2 flex items-center text-xs uppercase font-bold"
+              href="https://www.linkedin.com/company/emidatechnologies"
+              target="_blank"
+            >
+              <i class="fab fa-linkedin text-lg leading-lg lg:text-slate-300 text-slate-500"></i>
+              <span class="lg:hidden ml-2">Star</span>
             </a>
           </li>
-
-
         </ul>
       </div>
     </div>
   </nav>
 </template>
+
 <script>
 export default {
   data() {
@@ -57,7 +71,7 @@ export default {
     }
   },
   methods: {
-    setNavbarOpen: function () {
+    setNavbarOpen() {
       this.navbarOpen = !this.navbarOpen
     },
   },

@@ -1,12 +1,10 @@
 import PrimeVue from 'primevue/config';
 import ToastService from 'primevue/toastservice';
+import Aura from '@primevue/themes/aura'; // preset disponible
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import '@/assets/styles/main.css';
 import 'primeicons/primeicons.css';
-
-// Importa la versión clara
-import Lara from '@primeuix/themes/lara';
 import '@fortawesome/fontawesome-free/css/all.min.css'
 
 
@@ -18,12 +16,12 @@ const app = createApp(App);
 
 app.use(PrimeVue, {
   theme: {
-    preset: Lara,
+    preset: Aura,
     options: {
-      darkModeSelector: false // fuerza modo claro
+      darkModeSelector: '.my-app-dark' // si usas modo oscuro dinámico
     }
   }
-})
+});
 
 app.use(ToastService);
 app.use(createPinia());
