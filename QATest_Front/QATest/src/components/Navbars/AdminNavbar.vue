@@ -27,6 +27,7 @@
           <span v-if="!isCollapsed" class="ml-3">Dashboard</span>
         </RouterLink>
 
+     
         <RouterLink
           to="/admin/environments"
           class="flex items-center px-3 py-2 hover:bg-slate-700 rounded transition-all duration-300 ease-in-out"
@@ -34,6 +35,15 @@
           <i class="pi pi-globe text-lg"></i>
           <span v-if="!isCollapsed" class="ml-3">Environments</span>
         </RouterLink>
+
+           <RouterLink
+          to="/admin/tests"
+          class="flex items-center px-3 py-2 hover:bg-slate-700 rounded transition-all duration-300 ease-in-out"
+        >
+          <i class="pi pi-search text-lg"></i>
+          <span v-if="!isCollapsed" class="ml-3">Tests</span>
+        </RouterLink>
+
 
         <RouterLink
           to="/"
@@ -65,11 +75,6 @@
 
           <template #end>
             <div class="flex items-center gap-2">
-              <InputText
-                placeholder="Search"
-                type="text"
-                class="w-28 sm:w-auto text-sm text-black rounded"
-              />
               <Avatar
                 image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png"
                 shape="circle"
@@ -91,7 +96,6 @@
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import Menubar from 'primevue/menubar'
-import InputText from 'primevue/inputtext'
 import Avatar from 'primevue/avatar'
 
 const isCollapsed = ref(true)
