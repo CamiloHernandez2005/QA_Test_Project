@@ -17,6 +17,7 @@
           <!-- 🔹 Header con botones -->
           <template #header>
             <div class="flex flex-wrap justify-between items-center gap-4 w-full">
+              <!-- Izquierda -->
               <div>
                 <Button
                   label="Add Server"
@@ -25,19 +26,20 @@
                 />
               </div>
 
+              <!-- Derecha -->
               <div class="flex items-center gap-2">
-                  <span class="p-input-icon-left">
-                  <InputText v-model="globalFilter" placeholder="Search..." class="w-52" />
-                </span>
+                
 
-                <Button variant="text" icon="pi pi-plus" label="Expand All" @click="expandAll" />
+                <!-- Botón Expand/Collapse único -->
                 <Button
+                  :label="allExpanded ? 'Collapse All' : 'Expand All'"
+                  :icon="allExpanded ? 'pi pi-minus' : 'pi pi-plus'"
                   variant="text"
-                  icon="pi pi-minus"
-                  label="Collapse All"
-                  @click="collapseAll"
+                  @click="toggleExpandAll"
                 />
-
+                <span class="p-input-icon-left">
+                  <InputText v-model="globalFilter" placeholder="Search..." class="w-48" />
+                </span>
               </div>
             </div>
           </template>
@@ -120,22 +122,25 @@ import InputText from 'primevue/inputtext'
 import { CustomerService } from '@/service/CustomerService'
 
 const servers = ref([])
-const expandedRows = ref([])
+const expandedRows = ref({})
 const globalFilter = ref('')
+const allExpanded = ref(false) // estado del botón expand/collapse
 
 onMounted(() => {
   CustomerService.getServersLarge().then((data) => (servers.value = data))
 })
 
-const expandAll = () => {
-  expandedRows.value = servers.value.reduce((acc, server) => {
-    acc[server.id] = true
-    return acc
-  }, {})
-}
-
-const collapseAll = () => {
-  expandedRows.value = {}
+// 🔹 Expandir / Colapsar todo
+const toggleExpandAll = () => {
+  if (allExpanded.value) {
+    expandedRows.value = {}
+  } else {
+    expandedRows.value = servers.value.reduce((acc, server) => {
+      acc[server.id] = true
+      return acc
+    }, {})
+  }
+  allExpanded.value = !allExpanded.value
 }
 
 // 🔹 Métodos acciones

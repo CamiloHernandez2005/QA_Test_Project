@@ -1,59 +1,98 @@
 <template>
   <div class="flex h-screen text-sm font-sans">
     <!-- Sidebar -->
-    <aside
+   <aside
+  :class="[
+    'shadow-xl flex flex-col',
+    'transition-[width,transform] ease-in-out duration-500',
+    isCollapsed ? 'w-16' : 'w-60',
+    'bg-slate-800 text-white',
+  ]"
+  @mouseenter="handleMouseEnter"
+  @mouseleave="handleMouseLeave"
+>
+  <!-- 🔹 Parte superior: título -->
+  <div
+    :class="[
+      'flex items-center border-b border-slate-700 py-4',
+      isCollapsed ? 'justify-center' : 'px-3',
+    ]"
+  >
+    <i class="pi pi-box text-xl"></i>
+    <span v-if="!isCollapsed" class="ml-3 text-lg font-semibold tracking-wide"> AXEXO </span>
+  </div>
+
+  <!-- 🔹 Links Sidebar -->
+  <nav class="flex-1 overflow-y-auto mt-2 space-y-1">
+    <RouterLink
+      to="/admin/dashboard"
       :class="[
-        'shadow-xl flex flex-col',
-        'transition-[width,transform] ease-in-out duration-500',
-        isCollapsed ? 'w-16' : 'w-60',
-        'bg-slate-800 text-white',
+        'flex items-center py-2 hover:bg-slate-700 rounded transition-all duration-300 ease-in-out',
+        isCollapsed ? 'justify-center' : 'px-3',
       ]"
-      @mouseenter="handleMouseEnter"
-      @mouseleave="handleMouseLeave"
     >
-      <!-- Título Sidebar -->
-      <div class="flex items-center px-3 py-4 border-b border-slate-700">
-        <i class="pi pi-box text-xl"></i>
-        <span v-if="!isCollapsed" class="ml-3 text-lg font-semibold tracking-wide"> AXEXO </span>
-      </div>
+      <i class="pi pi-home text-lg"></i>
+      <span v-if="!isCollapsed" class="ml-3">Dashboard</span>
+    </RouterLink>
 
-      <!-- Links Sidebar -->
-      <nav class="flex-1 overflow-y-auto mt-2 space-y-1">
-        <RouterLink
-          to="/admin/dashboard"
-          class="flex items-center px-3 py-2 hover:bg-slate-700 rounded transition-all duration-300 ease-in-out"
-        >
-          <i class="pi pi-home text-lg"></i>
-          <span v-if="!isCollapsed" class="ml-3">Dashboard</span>
-        </RouterLink>
+    <RouterLink
+      to="/admin/environments"
+      :class="[
+        'flex items-center py-2 hover:bg-slate-700 rounded transition-all duration-300 ease-in-out',
+        isCollapsed ? 'justify-center' : 'px-3',
+      ]"
+    >
+      <i class="pi pi-globe text-lg"></i>
+      <span v-if="!isCollapsed" class="ml-3">Environments</span>
+    </RouterLink>
 
-     
-        <RouterLink
-          to="/admin/environments"
-          class="flex items-center px-3 py-2 hover:bg-slate-700 rounded transition-all duration-300 ease-in-out"
-        >
-          <i class="pi pi-globe text-lg"></i>
-          <span v-if="!isCollapsed" class="ml-3">Environments</span>
-        </RouterLink>
+    <RouterLink
+      to="/admin/tests"
+      :class="[
+        'flex items-center py-2 hover:bg-slate-700 rounded transition-all duration-300 ease-in-out',
+        isCollapsed ? 'justify-center' : 'px-3',
+      ]"
+    >
+      <i class="pi pi-search text-lg"></i>
+      <span v-if="!isCollapsed" class="ml-3">Tests</span>
+    </RouterLink>
 
-           <RouterLink
-          to="/admin/tests"
-          class="flex items-center px-3 py-2 hover:bg-slate-700 rounded transition-all duration-300 ease-in-out"
-        >
-          <i class="pi pi-search text-lg"></i>
-          <span v-if="!isCollapsed" class="ml-3">Tests</span>
-        </RouterLink>
+    <RouterLink
+      to="/"
+      :class="[
+        'flex items-center py-2 hover:bg-slate-700 rounded transition-all duration-300 ease-in-out',
+        isCollapsed ? 'justify-center' : 'px-3',
+      ]"
+    >
+      <i class="pi pi-sign-out text-lg"></i>
+      <span v-if="!isCollapsed" class="ml-3">Exit</span>
+    </RouterLink>
+  </nav>
 
+  <!-- 🔹 Footer del Sidebar -->
+  <div
+    class="border-t border-slate-700 p-3 flex flex-col gap-2"
+    :class="[isCollapsed ? 'items-center' : '']"
+  >
 
-        <RouterLink
-          to="/"
-          class="flex items-center px-3 py-2 hover:bg-slate-700 rounded transition-all duration-300 ease-in-out"
-        >
-          <i class="pi pi-sign-out text-lg"></i>
-          <span v-if="!isCollapsed" class="ml-3">Exit</span>
-        </RouterLink>
-      </nav>
-    </aside>
+    <!-- Settings -->
+    <button
+      class="flex items-center gap-2 py-2 px-3 rounded hover:bg-slate-700 transition-all"
+    >
+      <i class="pi pi-cog"></i>
+      <span v-if="!isCollapsed">Settings</span>
+    </button>
+
+    <!-- Ayuda -->
+    <button
+      class="flex items-center gap-2 py-2 px-3 rounded hover:bg-slate-700 transition-all"
+    >
+      <i class="pi pi-info-circle"></i>
+      <span v-if="!isCollapsed">About</span>
+    </button>
+  </div>
+</aside>
+
 
     <!-- Área principal -->
     <div class="flex-1 flex flex-col overflow-hidden">
