@@ -1,71 +1,96 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-blueGray-800 bg-no-repeat bg-full"
-    :style="`background-image: url('${registerBg2}');`">
+  <div
+    class="min-h-screen flex flex-col bg-slate-800 bg-no-repeat bg-cover"
+    :style="`background-image: url('${registerBg2}');`"
+  >
     <AuthNavbar />
     <main class="flex-grow flex items-center justify-center">
       <div class="container mx-auto px-4">
         <div class="w-full lg:w-4/12 px-4 mx-auto">
           <div
-            class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
+            class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-slate-200 border-0"
+          >
             <div class="rounded-t mb-0 px-6 py-6">
               <div class="text-center mb-3">
-                <h6 class="text-blueGray-500 text-sm font-bold">Sign in with</h6>
+                <h6 class="text-slate-600 text-sm font-bold">Sign in with</h6>
               </div>
               <div class="btn-wrapper text-center">
                 <button
-                  class="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                  type="button">
-                  <img alt="..." class="w-5 mr-1" :src="facebook" />
+                  class="bg-white text-slate-700 font-semibold px-4 py-2 rounded mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center text-xs ease-linear transition-all duration-150"
+                  type="button"
+                >
+                  <img alt="facebook" class="w-5 mr-1" :src="facebook" />
                   Facebook
                 </button>
                 <button
-                  class="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                  type="button">
-                  <img alt="..." class="w-5 mr-1" :src="google" />
+                  class="bg-white text-slate-700 font-semibold px-4 py-2 rounded mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center text-xs ease-linear transition-all duration-150"
+                  type="button"
+                >
+                  <img alt="google" class="w-5 mr-1" :src="google" />
                   Google
                 </button>
               </div>
-              <hr class="mt-6 border-b-1 border-blueGray-300" />
+              <hr class="mt-6 border-b border-slate-300" />
             </div>
 
             <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-              <div class="text-blueGray-400 text-center mb-3 font-bold">
+              <div class="text-slate-500 text-center mb-3 font-bold">
                 <small>Or sign in with credentials</small>
               </div>
               <form>
+                <!-- Email -->
                 <div class="relative w-full mb-3">
-                  <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
+                  <label
+                    class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                    for="email"
+                  >
                     Email
                   </label>
-                  <input type="email"
-                    class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    placeholder="Email" />
+                  <input
+                    id="email"
+                    type="email"
+                    class="px-3 py-3 placeholder-slate-400 text-slate-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                    placeholder="Email"
+                  />
                 </div>
 
+                <!-- Password -->
                 <div class="relative w-full mb-3">
-                  <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
+                  <label
+                    class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                    for="password"
+                  >
                     Password
                   </label>
-                  <input type="password"
-                    class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    placeholder="Password" />
+                  <input
+                    id="password"
+                    type="password"
+                    class="px-3 py-3 placeholder-slate-400 text-slate-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                    placeholder="Password"
+                  />
                 </div>
+
+                <!-- Remember me -->
                 <div>
                   <label class="inline-flex items-center cursor-pointer">
-                    <input id="customCheckLogin" type="checkbox"
-                      class="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150" />
-                    <span class="ml-2 text-sm font-semibold text-blueGray-600"> Remember me </span>
+                    <input
+                      id="customCheckLogin"
+                      type="checkbox"
+                      class="w-5 h-5 text-slate-700 rounded border-slate-300 focus:ring-slate-500"
+                    />
+                    <span class="ml-2 text-sm font-semibold text-slate-600">Remember me</span>
                   </label>
                 </div>
 
+                <!-- Sign In -->
                 <div class="text-center mt-6">
-                  <RouterLink to="/admin/dashboard" class="text-blueGray-200" >
-                  <button
-                    class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                    type="button">
-                    Sign In
-                  </button>
-                  
+                  <RouterLink to="/admin/dashboard">
+                    <button
+                      class="bg-slate-800 text-white text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg w-full ease-linear transition-all duration-150"
+                      type="button"
+                    >
+                      Sign In
+                    </button>
                   </RouterLink>
                 </div>
               </form>
@@ -75,14 +100,12 @@
           <!-- Links adicionales -->
           <div class="flex flex-wrap mt-6 relative">
             <div class="w-1/2">
-              <a href="javascript:void(0)" class="text-blueGray-200">
-                <small>Forgot password?</small>
-              </a>
+              
             </div>
             <div class="w-1/2 text-right">
-              <RouterLink to="/auth/register" class="text-blueGray-200">
-                <small>Create new account</small>
-              </RouterLink>
+              <a href="javascript:void(0)" class="text-slate-200">
+                <small>Forgot password?</small>
+              </a>
             </div>
           </div>
         </div>

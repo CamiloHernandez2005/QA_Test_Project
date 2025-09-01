@@ -1,25 +1,37 @@
 <template>
-  <footer class="pb-6" :class="[absolute ? 'absolute w-full bottom-0 bg-blueGray-800' : 'relative']">
+  <footer
+    class="pb-6"
+    :class="[absolute ? 'absolute bottom-0 w-full bg-slate-800' : 'relative']"
+  >
     <div class="container mx-auto px-4">
-      <hr class="mb-6 border-b-1 border-blueGray-600" />
+      <hr class="mb-6 border-slate-600" />
       <div class="flex flex-wrap items-center md:justify-between justify-center">
-        <div class="w-full md:w-4/12 px-4">
-          <div class="text-sm text-blueGray-500 font-semibold py-1 text-center md:text-left">
-            Copyright © AXEXO {{ date }}
-          </div>
+        <!-- Copy -->
+        <div class="w-full md:w-4/12 px-4 text-center md:text-left">
+          <p class="text-sm text-slate-400 font-medium">
+            © AXEXO {{ date }}
+          </p>
         </div>
+
+        <!-- Links -->
         <div class="w-full md:w-8/12 px-4">
-          <ul class="flex flex-wrap list-none md:justify-end justify-center">
+          <ul class="flex flex-wrap justify-center md:justify-end gap-4">
             <li>
-              <a href="https://emida.com/" target="_blank"
-                class="text-white hover:text-blueGray-300 text-sm font-semibold block py-1 px-3">
+              <a
+                href="https://emida.com/"
+                target="_blank"
+                class="text-sm text-white font-medium hover:text-slate-300 transition-colors"
+              >
                 About Us
               </a>
             </li>
             <li>
-              <a href="https://emida.com/terms-conditions/" target="_blank"
-                class="text-white hover:text-blueGray-300 text-sm font-semibold block py-1 px-3">
-                Terms & conditions
+              <a
+                href="https://emida.com/terms-conditions/"
+                target="_blank"
+                class="text-sm text-white font-medium hover:text-slate-300 transition-colors"
+              >
+                Terms & Conditions
               </a>
             </li>
           </ul>
@@ -31,16 +43,16 @@
 
 <script>
 export default {
-  data() {
-    return {
-      date: new Date().getFullYear(),
-    }
-  },
   props: {
     absolute: {
       type: Boolean,
       default: false,
     },
+  },
+  data() {
+    return {
+      date: new Date().getFullYear(),
+    }
   },
 }
 </script>
