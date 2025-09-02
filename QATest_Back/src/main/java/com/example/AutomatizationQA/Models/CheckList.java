@@ -1,35 +1,33 @@
 package com.example.AutomatizationQA.Models;
 
+
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
-@Table(name = "components")
+@Table(name = "check_list")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Component {
+public class CheckList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     private String name;
-    private String description;
 
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
-
+    @Column(name = "last_result")
+    private String lastResult;
 
     @Column(name = "last_updated")
     private LocalDateTime lastUpdated;
 
     @PrePersist
     protected void onCreate() {
-        this.createdDate = LocalDateTime.now();
         this.lastUpdated = LocalDateTime.now();
     }
 
@@ -38,8 +36,7 @@ public class Component {
         this.lastUpdated = LocalDateTime.now();
     }
 
-    @OneToMany(mappedBy = "component", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Region> regions;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id", nullable = false)
+    private Region region;
 }
-

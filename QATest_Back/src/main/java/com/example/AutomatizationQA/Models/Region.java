@@ -3,6 +3,7 @@ package com.example.AutomatizationQA.Models;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "regions")
@@ -38,4 +39,7 @@ public class Region {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "component_id", nullable = false)
     private Component component;
+
+    @OneToMany(mappedBy = "region", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CheckList> checkList;
 }

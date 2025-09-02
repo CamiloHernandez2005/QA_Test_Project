@@ -16,20 +16,14 @@ public class ComponentController {
     private final ComponentService componentService;
 
     @GetMapping
-    public List<Component> getAllComponents() {
-        return componentService.getAllComponents();
+    public ResponseEntity<List<ComponentDTO>> getAllComponents() {
+        return ResponseEntity.ok(componentService.getAllComponents());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Component> getComponentById(@PathVariable Long id) {
-        return componentService.getComponentById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
+    public ResponseEntity<ComponentDTO> getComponentById(@PathVariable Long id) {
+        return ResponseEntity.ok(componentService.getComponentById(id));
 
-    @GetMapping("/{id}/with-regions")
-    public ResponseEntity<ComponentDTO> getApplicationWithRegions(@PathVariable Long id) {
-        return ResponseEntity.ok(componentService.getComponentWithRegions(id));
     }
 
     @PostMapping("/create")

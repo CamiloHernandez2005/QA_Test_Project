@@ -6,8 +6,7 @@ import com.example.AutomatizationQA.Services.RegionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-        import java.util.List;
+import java.util.List;
 
 @RestController
 @RequestMapping("/regions")
@@ -17,15 +16,13 @@ public class RegionController {
     private final RegionService regionService;
 
     @GetMapping
-    public List<Region> getAllRegions() {
-        return regionService.getAllRegions();
+    public ResponseEntity<List<RegionDTO>> getAllRegions() {
+        return ResponseEntity.ok(regionService.getAllRegions());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Region> getRegionById(@PathVariable Long id) {
-        return regionService.getRegionById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<RegionDTO> getRegionById(@PathVariable Long id) {
+        return ResponseEntity.ok(regionService.getRegionById(id));
     }
 
     @PostMapping("/create")

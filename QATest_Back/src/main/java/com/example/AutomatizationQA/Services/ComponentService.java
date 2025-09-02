@@ -1,12 +1,12 @@
 package com.example.AutomatizationQA.Services;
 
 import com.example.AutomatizationQA.DTOs.ComponentDTO;
+import com.example.AutomatizationQA.DTOs.RegionDTO;
 import com.example.AutomatizationQA.Models.Component;
 import com.example.AutomatizationQA.Repositorys.ComponentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -15,32 +15,17 @@ public class ComponentService {
 
     private final ComponentRepository componentRepository;
 
-    public List<Component> getAllComponents() {
-        return componentRepository.findAll();
+    public List<ComponentDTO> getAllComponents() {
+        return componentRepository.findAll().stream()
+                .map(this::toDTO)
+                .toList();
     }
 
-    public Optional<Component> getComponentById(Long id) {
-        return componentRepository.findById(id);
-    }
+    public ComponentDTO getComponentById(Long id) {
 
-    public ComponentDTO getComponentWithRegions(Long id) {
         return componentRepository.findById(id)
-                .map(app -> ComponentDTO.builder()
-                        .id(app.getId())
-                        .name(app.getName())
-                        .description(app.getDescription())
-                        .lastUpdated(app.getLastUpdated())
-                        .regions(app.getRegions().stream()
-                                .map(r -> ComponentDTO.RegionDTO.builder()
-                                        .id(r.getId())
-                                        .regionCode(r.getRegionCode())
-                                        .ip(r.getIp())
-                                        .port(r.getPort())
-                                        .lastUpdated(r.getLastUpdated())
-                                        .build())
-                                .collect(Collectors.toList()))
-                        .build()
-                ).orElseThrow(() -> new RuntimeException("Application not found with id " + id));
+                .map(this::toDTO)
+                .orElseThrow(() -> new RuntimeException("Region not found with id " + id));
     }
 
     public Component createComponent(Component component) {
@@ -66,6 +51,26 @@ public class ComponentService {
 
     public void deleteComponent(Long id) {
         componentRepository.deleteById(id);
+    }
+
+    public ComponentDTO toDTO(Component component) {
+        return ComponentDTO.builder()
+                .id(component.getId())
+                .name(component.getName())
+                .description(component.getDescription())
+                .createdDate(component.getCreatedDate())
+                .lastUpdated(component.getLastUpdated())
+                .regions(component.getRegions().stream()
+                        .map(r -> RegionDTO.builder()
+                                .id(r.getId())
+                                .regionCode(r.getRegionCode())
+                                .ip(r.getIp())
+                                .port(r.getPort())
+                                .lastUpdated(r.getLastUpdated())
+                                .componentId(r.getComponent().getId())
+                                .build())
+                        .collect(Collectors.toList()))
+                .build();
     }
 }
 

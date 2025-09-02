@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,12 +16,16 @@ public class RegionService {
 
     private final RegionRepository regionRepository;
 
-    public List<Region> getAllRegions() {
-        return regionRepository.findAll();
+    public List<RegionDTO> getAllRegions() {
+        return regionRepository.findAll().stream()
+                .map(this::toDTO)
+                .toList();
     }
 
-    public Optional<Region> getRegionById(Long id) {
-        return regionRepository.findById(id);
+    public RegionDTO getRegionById(Long id) {
+        return regionRepository.findById(id)
+                .map(this::toDTO)
+                .orElseThrow(() -> new RuntimeException("Region not found with id " + id));
     }
 
     public Region createRegion(Region region) {
