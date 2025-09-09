@@ -28,7 +28,7 @@
 
               <!-- Derecha -->
               <div class="flex items-center gap-2">
-                
+
 
                 <!-- Botón Expand/Collapse único -->
                 <Button
@@ -105,16 +105,11 @@
         </DataTable>
       </div>
     </div>
-
-    <div class="px-4 md:px-10 mx-auto w-full -m-24">
-      <FooterAdmin />
-    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import FooterAdmin from '@/components/Footers/FooterAdmin.vue'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Button from 'primevue/button'

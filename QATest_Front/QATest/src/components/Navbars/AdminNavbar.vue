@@ -57,6 +57,28 @@
       <span v-if="!isCollapsed" class="ml-3">Tests</span>
     </RouterLink>
 
+      <RouterLink
+      to="/admin/users"
+      :class="[
+        'flex items-center py-2 hover:bg-slate-700 rounded transition-all duration-300 ease-in-out',
+        isCollapsed ? 'justify-center' : 'px-3',
+      ]"
+    >
+      <i class="pi pi-user text-lg"></i>
+      <span v-if="!isCollapsed" class="ml-3">Users</span>
+    </RouterLink>
+
+      <RouterLink
+      to="/admin/audit"
+      :class="[
+        'flex items-center py-2 hover:bg-slate-700 rounded transition-all duration-300 ease-in-out',
+        isCollapsed ? 'justify-center' : 'px-3',
+      ]"
+    >
+      <i class="pi pi-file text-lg"></i>
+      <span v-if="!isCollapsed" class="ml-3">Audit</span>
+    </RouterLink>
+
     <RouterLink
       to="/"
       :class="[

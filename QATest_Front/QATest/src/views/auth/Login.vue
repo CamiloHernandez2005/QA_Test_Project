@@ -10,33 +10,16 @@
           <div
             class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-slate-200 border-0"
           >
+            <!-- 🔹 Header -->
             <div class="rounded-t mb-0 px-6 py-6">
               <div class="text-center mb-3">
-                <h6 class="text-slate-600 text-sm font-bold">Sign in with</h6>
+                <h6 class="text-slate-600 text-sm font-bold">Sign in</h6>
               </div>
-              <div class="btn-wrapper text-center">
-                <button
-                  class="bg-white text-slate-700 font-semibold px-4 py-2 rounded mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center text-xs ease-linear transition-all duration-150"
-                  type="button"
-                >
-                  <img alt="facebook" class="w-5 mr-1" :src="facebook" />
-                  Facebook
-                </button>
-                <button
-                  class="bg-white text-slate-700 font-semibold px-4 py-2 rounded mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center text-xs ease-linear transition-all duration-150"
-                  type="button"
-                >
-                  <img alt="google" class="w-5 mr-1" :src="google" />
-                  Google
-                </button>
-              </div>
-              <hr class="mt-6 border-b border-slate-300" />
+              <hr class="mt-4 border-b border-slate-300" />
             </div>
 
+            <!-- 🔹 Formulario -->
             <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-              <div class="text-slate-500 text-center mb-3 font-bold">
-                <small>Or sign in with credentials</small>
-              </div>
               <form>
                 <!-- Email -->
                 <div class="relative w-full mb-3">
@@ -71,19 +54,21 @@
                 </div>
 
                 <!-- Remember me -->
-                <div>
+                <div class="mb-4">
                   <label class="inline-flex items-center cursor-pointer">
                     <input
                       id="customCheckLogin"
                       type="checkbox"
                       class="w-5 h-5 text-slate-700 rounded border-slate-300 focus:ring-slate-500"
                     />
-                    <span class="ml-2 text-sm font-semibold text-slate-600">Remember me</span>
+                    <span class="ml-2 text-sm font-semibold text-slate-600">
+                      Remember me
+                    </span>
                   </label>
                 </div>
 
                 <!-- Sign In -->
-                <div class="text-center mt-6">
+                <div class="text-center">
                   <RouterLink to="/admin/dashboard">
                     <button
                       class="bg-slate-800 text-white text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg w-full ease-linear transition-all duration-150"
@@ -93,15 +78,24 @@
                     </button>
                   </RouterLink>
                 </div>
+
+                <!-- Google -->
+                <div class="text-center mt-3">
+                  <button
+                    class="bg-white text-slate-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg w-full ease-linear transition-all duration-150 inline-flex items-center justify-center"
+                    type="button"
+                  >
+                    <img alt="google" class="w-5 h-5 mr-2" :src="google" />
+                    Sign in with Google
+                  </button>
+                </div>
               </form>
             </div>
           </div>
 
-          <!-- Links adicionales -->
+          <!-- 🔹 Links adicionales -->
           <div class="flex flex-wrap mt-6 relative">
-            <div class="w-1/2">
-              
-            </div>
+            <div class="w-1/2"></div>
             <div class="w-1/2 text-right">
               <a href="javascript:void(0)" class="text-slate-200">
                 <small>Forgot password?</small>
@@ -111,28 +105,11 @@
         </div>
       </div>
     </main>
-    <FooterComponent />
   </div>
 </template>
 
-<script>
-import FooterComponent from '@/components/Footers/FooterSmall.vue'
+<script setup>
 import AuthNavbar from '@/components/Navbars/AuthNavbar.vue'
 import registerBg2 from '@/assets/img/register_bg_2.png'
-import facebook from '@/assets/img/facebook.svg'
 import google from '@/assets/img/google.svg'
-
-export default {
-  data() {
-    return {
-      facebook,
-      google,
-      registerBg2,
-    }
-  },
-  components: {
-    FooterComponent,
-    AuthNavbar,
-  },
-}
 </script>
