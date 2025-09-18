@@ -35,16 +35,29 @@
       <span v-if="!isCollapsed" class="ml-3">Dashboard</span>
     </RouterLink>
 
-    <RouterLink
-      to="/admin/environments"
+        <RouterLink
+      to="/admin/roles"
       :class="[
         'flex items-center py-2 hover:bg-slate-700 rounded transition-all duration-300 ease-in-out',
         isCollapsed ? 'justify-center' : 'px-3',
       ]"
     >
-      <i class="pi pi-globe text-lg"></i>
-      <span v-if="!isCollapsed" class="ml-3">Environments</span>
+      <i class="pi pi-users text-lg"></i>
+      <span v-if="!isCollapsed" class="ml-3">Roles</span>
     </RouterLink>
+
+    
+      <RouterLink
+      to="/admin/users"
+      :class="[
+        'flex items-center py-2 hover:bg-slate-700 rounded transition-all duration-300 ease-in-out',
+        isCollapsed ? 'justify-center' : 'px-3',
+      ]"
+    >
+      <i class="pi pi-user text-lg"></i>
+      <span v-if="!isCollapsed" class="ml-3">Users</span>
+    </RouterLink>
+
 
     <RouterLink
       to="/admin/tests"
@@ -57,16 +70,17 @@
       <span v-if="!isCollapsed" class="ml-3">Tests</span>
     </RouterLink>
 
-      <RouterLink
-      to="/admin/users"
+       <RouterLink
+      to="/admin/environments"
       :class="[
         'flex items-center py-2 hover:bg-slate-700 rounded transition-all duration-300 ease-in-out',
         isCollapsed ? 'justify-center' : 'px-3',
       ]"
     >
-      <i class="pi pi-user text-lg"></i>
-      <span v-if="!isCollapsed" class="ml-3">Users</span>
+      <i class="pi pi-globe text-lg"></i>
+      <span v-if="!isCollapsed" class="ml-3">Environments</span>
     </RouterLink>
+  
 
       <RouterLink
       to="/admin/audit"
