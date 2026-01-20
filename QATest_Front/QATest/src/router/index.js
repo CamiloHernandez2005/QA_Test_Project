@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { verifySession } from '@/services/authService'
 import MainLayout from '@/components/Navbars/AdminNavbar.vue'
 import Login from '@/views/auth/Login.vue'
 import Dashboard from '@/views/admin/Dashboard.vue'
@@ -10,9 +11,11 @@ import Roles from '@/views/admin/Roles.vue'
 
 const routes = [
   { path: '/', component: Login },
+
   {
     path: '/admin',
     component: MainLayout,
+    meta: { requiresAuth: true },
     children: [
       { path: 'dashboard', component: Dashboard },
       { path: 'tests', component: Tests },
@@ -27,6 +30,20 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
+})
+
+router.beforeEach(async (to, from, next) => {
+
+  if (!to.matched.some(r => r.meta.requiresAuth)) {
+    return next()
+  }
+
+  try {
+    await verifySession()
+    next()
+  } catch (error) {
+    next('/')
+  }
 })
 
 export default router

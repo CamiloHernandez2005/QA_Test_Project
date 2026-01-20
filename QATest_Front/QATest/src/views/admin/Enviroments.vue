@@ -19,17 +19,11 @@
             <div class="flex flex-wrap justify-between items-center gap-4 w-full">
               <!-- Izquierda -->
               <div>
-                <Button
-                  label="Add Server"
-                  icon="pi pi-plus"
-                  @click="onAdd"
-                />
+                <Button label="Add Server" icon="pi pi-plus" @click="onAdd" />
               </div>
 
               <!-- Derecha -->
               <div class="flex items-center gap-2">
-
-
                 <!-- Botón Expand/Collapse único -->
                 <Button
                   :label="allExpanded ? 'Collapse All' : 'Expand All'"
@@ -114,7 +108,7 @@ import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
-import { CustomerService } from '@/service/CustomerService'
+import { CustomerService } from '@/services/customerService'
 
 const servers = ref([])
 const expandedRows = ref({})

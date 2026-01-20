@@ -46,7 +46,7 @@
       <span v-if="!isCollapsed" class="ml-3">Roles</span>
     </RouterLink>
 
-    
+
       <RouterLink
       to="/admin/users"
       :class="[
@@ -78,9 +78,9 @@
       ]"
     >
       <i class="pi pi-globe text-lg"></i>
-      <span v-if="!isCollapsed" class="ml-3">Environments</span>
+      <span v-if="!isCollapsed" class="ml-3">Ports and connections</span>
     </RouterLink>
-  
+
 
       <RouterLink
       to="/admin/audit"
@@ -93,8 +93,8 @@
       <span v-if="!isCollapsed" class="ml-3">Audit</span>
     </RouterLink>
 
-    <RouterLink
-      to="/"
+    <form @submit.prevent="handleLogout">
+    <Button
       :class="[
         'flex items-center py-2 hover:bg-slate-700 rounded transition-all duration-300 ease-in-out',
         isCollapsed ? 'justify-center' : 'px-3',
@@ -102,7 +102,8 @@
     >
       <i class="pi pi-sign-out text-lg"></i>
       <span v-if="!isCollapsed" class="ml-3">Exit</span>
-    </RouterLink>
+    </Button>
+    </form>
   </nav>
 
   <!-- 🔹 Footer del Sidebar -->
@@ -172,9 +173,12 @@ import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import Menubar from 'primevue/menubar'
 import Avatar from 'primevue/avatar'
+import { useRouter } from "vue-router";
+import { logout } from '@/services/authService'
 
 const isCollapsed = ref(true)
 const manualOpen = ref(false)
+const router = useRouter();
 
 const toggleCollapse = () => {
   isCollapsed.value = !isCollapsed.value
@@ -192,4 +196,9 @@ const handleMouseLeave = () => {
     isCollapsed.value = true
   }
 }
+
+const handleLogout = async () => {
+  await logout();
+  router.push("/");
+};
 </script>

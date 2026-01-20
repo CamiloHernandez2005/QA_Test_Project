@@ -29,20 +29,19 @@
 
             <!-- Formulario -->
             <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-              <form>
+              <form @submit.prevent="handleLogin">
                 <!-- Email -->
                 <div class="relative w-full mb-3">
-                  <label
-                    class="block uppercase text-slate-600 text-xs font-bold mb-2"
-                    for="email"
-                  >
+                  <label class="block uppercase text-slate-600 text-xs font-bold mb-2" for="email">
                     Email
                   </label>
                   <input
+                    v-model="email"
                     id="email"
                     type="email"
                     class="px-3 py-3 placeholder-slate-400 text-slate-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                     placeholder="Email"
+                    required
                   />
                 </div>
 
@@ -55,10 +54,12 @@
                     Password
                   </label>
                   <input
+                    v-model="password"
                     id="password"
                     type="password"
                     class="px-3 py-3 placeholder-slate-400 text-slate-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                     placeholder="Password"
+                    required
                   />
                 </div>
 
@@ -70,23 +71,25 @@
                       type="checkbox"
                       class="w-5 h-5 text-slate-700 rounded border-slate-300 focus:ring-slate-500"
                     />
-                    <span class="ml-2 text-sm font-semibold text-slate-600">
-                      Remember me
-                    </span>
+                    <span class="ml-2 text-sm font-semibold text-slate-600"> Remember me </span>
                   </label>
                 </div>
 
+                 <p v-if="error" class="error">{{ error }}</p>
+
+
                 <!-- Sign In -->
                 <div class="text-center">
-                  <RouterLink to="/admin/dashboard">
+
                     <button
                       class="bg-slate-800 text-white text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg w-full ease-linear transition-all duration-150"
-                      type="button"
+                      type="submit"
                     >
                       Sign In
                     </button>
-                  </RouterLink>
+
                 </div>
+
 
                 <!-- Google -->
                 <div class="text-center mt-3">
@@ -123,8 +126,34 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
 import AuthNavbar from '@/components/Navbars/AuthNavbar.vue'
 import AuthFootbar from '@/components/Footers/FooterSmall.vue'
 import registerBg2 from '@/assets/img/register_bg_2.png'
 import google from '@/assets/img/google.svg'
+import { useRouter } from "vue-router";
+
+import { login } from '@/services/authService'
+
+const email = ref('')
+const password = ref('')
+const error = ref(null);
+const router = useRouter();
+
+const handleLogin = async () => {
+  error.value = null
+
+  try {
+    await login(email.value, password.value)
+    router.push("/admin/dashboard");
+  } catch {
+  error.value = "Invalid credentials :(";
+}
+}
 </script>
+
+<style scoped>
+.error {
+  color: red;
+}
+</style>
