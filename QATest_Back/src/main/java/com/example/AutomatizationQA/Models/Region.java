@@ -22,6 +22,7 @@ public class Region {
 
     private String ip;
     private String port;
+    private String path;
 
     @Column(name = "last_updated")
     private LocalDateTime lastUpdated;

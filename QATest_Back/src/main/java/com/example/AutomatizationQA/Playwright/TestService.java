@@ -3,6 +3,7 @@ package com.example.AutomatizationQA.Playwright;
 import com.example.AutomatizationQA.Models.Region;
 import com.example.AutomatizationQA.Repositorys.RegionRepository;
 import com.microsoft.playwright.*;
+import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +53,7 @@ public class TestService {
                     phoneNumberConfirm.fill(request.getPhoneNumber());
                 }
             }
+            
 
             if (request.isPhoneNumberEnabled()) {
                 Locator amount = modal.locator("input[name=\"amount\"]");
@@ -63,8 +65,7 @@ public class TestService {
             if (request.isClerkIdEnabled()) {
                 Locator clerkId = modal.locator("input[name=\"clerkId\"]");
                 if (clerkId.isVisible()) {
-                    page.waitForCondition(() -> clerkId.getAttribute("readonly") == null,
-                            new Page.WaitForConditionOptions().setTimeout(20000));
+                    clerkId.focus();
                     clerkId.fill(request.getClerkId());
                 }
             }
@@ -84,10 +85,78 @@ public class TestService {
             finish.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
             finish.click();
 
-            return "Transacción completada: " + resultTransaction;
+            return "Transaction completed: " + resultTransaction;
 
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    public String runSalesPortalTest(TestDTO request) {
+        Region region = regionRepository.findById(request.getRegionId())
+                .orElseThrow(() -> new RuntimeException("Region not found with id " + request.getRegionId()));
+
+        String url = "http://" + region.getIp() + ":" + region.getPort() + region.getPath();
+
+        try (Playwright playwright = Playwright.create()) {
+            Browser browser = playwright.chromium()
+                    .launch(new BrowserType.LaunchOptions().setHeadless(false));
+            Page page = browser.newPage();
+
+            page.navigate(url);
+            page.fill("input[name=\"userId\"]", request.getUsername());
+            page.fill("input[name=\"password\"]", request.getPassword());
+            page.click("button[type=\"submit\"]");
+
+            page.locator("div[role=\"dialog\"]").waitFor(new Locator.WaitForOptions()
+                    .setState(WaitForSelectorState.ATTACHED));
+            page.locator("button[aria-label=\"Close\"]").click();
+
+            page.getByText("Bienvenido,", new Page.GetByTextOptions().setExact(false))
+                    .waitFor(new Locator.WaitForOptions()
+                            .setState(WaitForSelectorState.VISIBLE));
+
+            page.locator("button[aria-label=\"Open search\"]").click();
+            page.locator("input[placeholder='Buscar servicios...']").fill(request.getProductType());
+            page.locator("button[tabindex=\"0\"]").click();
+
+            Locator carrierText = page.getByText("Selecciona el operador\n", new Page.GetByTextOptions().setExact(false));
+            carrierText.waitFor(new Locator.WaitForOptions()
+                    .setState(WaitForSelectorState.VISIBLE)
+                    .setTimeout(15000));
+
+            String carrier = request.getCarrier();
+            page.locator(STR."button[data-pr-tooltip=\"\{carrier}\"]")
+                    .click(new Locator.ClickOptions());
+
+            Locator productText = page.getByText("Selecciona el producto\n", new Page.GetByTextOptions().setExact(false));
+            productText.waitFor(new Locator.WaitForOptions()
+                    .setState(WaitForSelectorState.VISIBLE)
+                    .setTimeout(15000));
+
+            String product = request.getProduct();
+            page.locator(STR."button[data-pr-tooltip=\"\{product}\"]")
+                    .click(new Locator.ClickOptions());
+            page.locator("text=Confirm").click();
+
+            page.getByText("ID del empleado", new Page.GetByTextOptions().setExact(false))
+                    .waitFor(new Locator.WaitForOptions()
+                            .setState(WaitForSelectorState.VISIBLE)
+                            .setTimeout(15000));
+
+            page.locator("input[type=\"password\"]").fill(request.getClerkId());
+            page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Confirmar")).click();
+
+            Locator transactionDetails = page.locator("#TransactionDetails");
+            transactionDetails.waitFor(new Locator.WaitForOptions()
+                    .setState(WaitForSelectorState.VISIBLE)
+                    .setTimeout(20000));
+
+            String receipt = transactionDetails.innerText();
+            return "Transaction completed: \n" + receipt;
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error:" + e.getMessage(), e);
         }
     }
 }

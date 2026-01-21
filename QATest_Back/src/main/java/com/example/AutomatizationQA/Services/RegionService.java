@@ -43,6 +43,9 @@ public class RegionService {
             if (regionDetails.getPort() != null) {
                 region.setPort(regionDetails.getPort());
             }
+            if (regionDetails.getPath() != null) {
+                region.setPath(regionDetails.getPath());
+            }
             Component component = region.getComponent();
             if (component != null) {
                 component.setLastUpdated(LocalDateTime.now());
@@ -62,6 +65,7 @@ public class RegionService {
                 .regionCode(region.getRegionCode())
                 .ip(region.getIp())
                 .port(region.getPort())
+                .path(region.getPath())
                 .lastUpdated(region.getLastUpdated())
                 .componentId(region.getComponent() != null ? region.getComponent().getId() : null)
                 .build();

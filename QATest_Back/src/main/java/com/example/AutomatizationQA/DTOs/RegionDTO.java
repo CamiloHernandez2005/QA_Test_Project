@@ -12,6 +12,7 @@ public class RegionDTO {
     private String regionCode;
     private String ip;
     private String port;
+    private String path;
     private LocalDateTime lastUpdated;
     private Long componentId;
 }

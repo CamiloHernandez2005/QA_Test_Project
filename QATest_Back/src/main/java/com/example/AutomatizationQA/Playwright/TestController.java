@@ -12,15 +12,27 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
     private final TestService testService;
+    private final SalesPortalService salesPortalService;
 
-    public TestController(TestService testService) {
+    public TestController(TestService testService, SalesPortalService salesPortalService) {
         this.testService = testService;
+        this.salesPortalService = salesPortalService;
     }
 
     @PostMapping("/pct")
     public ResponseEntity<String> runPctTest(@RequestBody TestDTO request) {
         try {
             String result = testService.runPctTest(request);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error durante ejecución: " + e.getMessage());
+        }
+    }
+    @PostMapping("/sp")
+    public ResponseEntity<String> runSalesPortalTest(@RequestBody TestDTO request) {
+        try {
+            String result = salesPortalService.runSalesPortalTest(request);
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
