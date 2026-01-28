@@ -62,11 +62,7 @@
         <Column expander style="width: 3rem" />
 
         <!-- 🔹 Columns -->
-        <Column
-          field="name"
-          header="Name"
-          :sortable="true"
-        >
+        <Column field="name" header="Name" :sortable="true">
           <template #body="{ data }">
             <div class="flex items-center gap-2">
               <i class="pi pi-box text-blue-500"></i>
@@ -75,22 +71,14 @@
           </template>
         </Column>
 
-        <Column
-          field="description"
-          header="Description"
-          :sortable="true"
-        >
+        <Column field="description" header="Description" :sortable="true">
           <template #body="{ data }">
             <span class="text-gray-600">{{ data.description || 'No description' }}</span>
           </template>
         </Column>
 
         <!-- 🔹 Actions Column (Solo visible cuando NO hay filas expandidas) -->
-        <Column
-          v-if="!isAnyRowExpanded"
-          header="Actions"
-          style="width: 10rem"
-        >
+        <Column v-if="!isAnyRowExpanded" header="Actions" style="width: 10rem">
           <template #body="{ data }">
             <div class="flex gap-2">
               <Button
@@ -112,15 +100,15 @@
         <!-- 🔹 Expansion -->
         <template #expansion="{ data }">
           <div class="p-6 bg-gray-50 rounded-lg m-2">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-3">
+            <div
+              class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-3"
+            >
               <div>
                 <h5 class="font-semibold text-lg text-gray-800 flex items-center gap-2">
                   <i class="pi pi-globe text-blue-500"></i>
                   Regions for <span class="text-blue-600 font-bold">{{ data.name }}</span>
                 </h5>
-                <p class="text-gray-600 text-sm">
-                  Manage regions associated with this component
-                </p>
+                <p class="text-gray-600 text-sm">Manage regions associated with this component</p>
               </div>
               <Button
                 label="Add region"
@@ -146,11 +134,7 @@
                 </div>
               </template>
 
-              <Column
-                field="name"
-                header="Region"
-                :sortable="true"
-              >
+              <Column field="name" header="Region" :sortable="true">
                 <template #body="{ data }">
                   <div class="flex items-center gap-2">
                     <i class="pi pi-map-marker text-red-500"></i>
@@ -159,22 +143,21 @@
                 </template>
               </Column>
 
-              <Column
-                field="link"
-                header="IP Address"
-                :sortable="true"
-              >
+              <!-- 🔹 Columna para IP -->
+              <Column field="link" header="IP Address" :sortable="true">
                 <template #body="{ data }">
                   <div class="flex items-center gap-2">
-                    <i class="pi pi-link text-blue-500"></i>
+                    <i class="pi pi-server text-blue-500"></i>
                     <a
-                      :href="formatLink(data.link)"
+                      :href="formatIpLink(data.link)"
                       target="_blank"
                       rel="noopener noreferrer"
                       class="text-blue-600 hover:text-blue-800 hover:underline transition-colors duration-200"
-                      v-tooltip.top="'Click to open link'"
+                      v-tooltip.top="'Click to open (HTTP)'"
                     >
-                      <code class="bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded text-sm font-mono transition-colors duration-200">
+                      <code
+                        class="bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded text-sm font-mono transition-colors duration-200"
+                      >
                         {{ data.link }}
                       </code>
                     </a>
@@ -182,13 +165,37 @@
                 </template>
               </Column>
 
-              <Column
-                field="port"
-                header="Port"
-                :sortable="true"
-              >
+              <Column field="port" header="Port" :sortable="true">
                 <template #body="{ data }">
-                  <Badge :value="data.port" severity="info" class="bg-blue-100 text-blue-800 border-blue-200" />
+                  <Badge
+                    :value="data.port"
+                    severity="info"
+                    class="bg-blue-100 text-blue-800 border-blue-200"
+                  />
+                </template>
+              </Column>
+
+              <!-- 🔹 Columna para DNS -->
+              <Column field="dns" header="DNS" :sortable="true">
+                <template #body="{ data }">
+                  <div class="flex items-center gap-2">
+                    <i class="pi pi-globe text-green-500"></i>
+                    <a
+                      v-if="data.dns && data.dns.trim()"
+                      :href="formatDnsLink(data.dns)"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-green-600 hover:text-green-800 hover:underline transition-colors duration-200"
+                      v-tooltip.top="'Click to open (HTTPS)'"
+                    >
+                      <code
+                        class="bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded text-sm font-mono transition-colors duration-200"
+                      >
+                        {{ data.dns }}
+                      </code>
+                    </a>
+                    <span v-else class="text-gray-400 italic">N/A</span>
+                  </div>
                 </template>
               </Column>
 
@@ -302,14 +309,12 @@
         <div class="flex flex-col gap-2">
           <label for="regionLink" class="font-medium text-gray-700">
             IP Address / URL <span class="text-red-500">*</span>
-            <i class="pi pi-info-circle ml-1 text-blue-500 cursor-help"
-               v-tooltip.top="'Enter IP (192.168.1.1) or full URL (http://example.com)'"></i>
           </label>
           <InputText
             id="regionLink"
             v-model="regionForm.link"
             :class="{ 'p-invalid border-red-500': regionSubmitted && !regionForm.link }"
-            placeholder="e.g., 192.168.1.1 or http://example.com"
+            placeholder="192.168.1.1"
             class="w-full rounded border-gray-300 focus:border-blue-500 focus:ring-blue-500"
           />
           <small v-if="regionSubmitted && !regionForm.link" class="text-red-500 text-sm">
@@ -328,12 +333,23 @@
             id="regionPort"
             v-model="regionForm.port"
             :class="{ 'p-invalid border-red-500': regionSubmitted && !regionForm.port }"
-            placeholder="e.g., 8080"
+            placeholder="8080"
             class="w-full rounded border-gray-300 focus:border-blue-500 focus:ring-blue-500"
           />
           <small v-if="regionSubmitted && !regionForm.port" class="text-red-500 text-sm">
             Port is required.
           </small>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="regionDns" class="font-medium text-gray-700"> DNS </label>
+          <InputText
+            id="regionDns"
+            v-model="regionForm.dns"
+            placeholder="https://example.com"
+            class="w-full rounded border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+          />
+          <small class="text-gray-500 text-sm"> This will be converted to a clickable link </small>
         </div>
       </div>
 
@@ -370,7 +386,8 @@
         <div>
           <p class="text-gray-700">
             Are you sure you want to delete
-            <span class="font-bold text-blue-600">{{ componentForm.name }}</span>?
+            <span class="font-bold text-blue-600">{{ componentForm.name }}</span
+            >?
           </p>
           <p class="text-red-500 text-sm mt-2 flex items-center gap-1">
             <i class="pi pi-exclamation-circle"></i>
@@ -411,11 +428,10 @@
         <div>
           <p class="text-gray-700">
             Are you sure you want to delete
-            <span class="font-bold text-blue-600">{{ regionForm.name }}</span>?
+            <span class="font-bold text-blue-600">{{ regionForm.name }}</span
+            >?
           </p>
-          <p class="text-gray-600 text-sm mt-2">
-            This action cannot be undone.
-          </p>
+          <p class="text-gray-600 text-sm mt-2">This action cannot be undone.</p>
         </div>
       </div>
 
@@ -481,7 +497,7 @@ const regionEditMode = ref(false)
 const componentForm = ref({
   id: null,
   name: '',
-  description: ''
+  description: '',
 })
 
 const regionForm = ref({
@@ -489,7 +505,8 @@ const regionForm = ref({
   name: '',
   link: '',
   port: '',
-  parentComponentId: null
+  dns: '',
+  parentComponentId: null,
 })
 
 // 🔹 Computed para verificar si hay filas expandidas
@@ -507,28 +524,38 @@ watch(globalFilter, (newValue) => {
   filters.value.global.value = newValue
 })
 
-// 🔹 Función para formatear enlaces
-const formatLink = (link) => {
-  if (!link) return '#'
+// 🔹 Función para formatear IP (siempre HTTP)
+const formatIpLink = (ip) => {
+  if (!ip || ip.trim() === '') return '#'
 
-  // Si ya tiene protocolo (http://, https://, etc.)
-  if (link.startsWith('http://') || link.startsWith('https://') || link.startsWith('ftp://')) {
-    return link
+  ip = ip.trim()
+
+  // Remover protocolo si ya existe
+  ip = ip.replace(/^(http:\/\/|https:\/\/)/, '')
+
+  // Si no tiene http://, agregarlo
+  if (!ip.startsWith('http://')) {
+    ip = `http://${ip}`
   }
 
-  // Si parece una IP (xxx.xxx.xxx.xxx)
-  const ipPattern = /^(\d{1,3}\.){3}\d{1,3}$/
-  if (ipPattern.test(link)) {
-    return `http://${link}`
+  return ip
+}
+
+// 🔹 Función para formatear DNS (siempre HTTPS)
+const formatDnsLink = (dns) => {
+  if (!dns || dns.trim() === '') return '#'
+
+  dns = dns.trim()
+
+  // Remover protocolo si ya existe
+  dns = dns.replace(/^(http:\/\/|https:\/\/)/, '')
+
+  // Si no tiene https://, agregarlo
+  if (!dns.startsWith('https://')) {
+    dns = `https://${dns}`
   }
 
-  // Si no tiene protocolo pero parece una URL
-  if (link.includes('.') && !link.includes(' ')) {
-    return `https://${link}`
-  }
-
-  // Si es solo un hostname sin punto
-  return `http://${link}`
+  return dns
 }
 
 // 🔹 Load data
@@ -537,7 +564,7 @@ const loadData = async () => {
   try {
     const [componentsRes, regionsRes] = await Promise.all([
       ComponentService.getAll(),
-      RegionService.getAll()
+      RegionService.getAll(),
     ])
     components.value = componentsRes.data
     regions.value = regionsRes.data
@@ -556,7 +583,7 @@ const showSuccess = (message) => {
     summary: 'Success',
     detail: message,
     life: 3000,
-    icon: 'pi pi-check-circle'
+    icon: 'pi pi-check-circle',
   })
 }
 
@@ -566,13 +593,13 @@ const showError = (message) => {
     summary: 'Error',
     detail: message,
     life: 4000,
-    icon: 'pi pi-exclamation-circle'
+    icon: 'pi pi-exclamation-circle',
   })
 }
 
 // 🔹 Regions by component
 const getRegionsByComponent = (componentId) =>
-  regions.value.filter(r => r.parentComponentId === componentId)
+  regions.value.filter((r) => r.parentComponentId === componentId)
 
 // 🔹 COMPONENT CRUD
 const openNewComponent = () => {
@@ -640,7 +667,8 @@ const openNewRegion = (componentId) => {
     name: '',
     link: '',
     port: '',
-    parentComponentId: componentId
+    dns: '',
+    parentComponentId: componentId,
   }
   regionEditMode.value = false
   regionSubmitted.value = false

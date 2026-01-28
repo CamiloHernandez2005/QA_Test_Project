@@ -8,7 +8,7 @@ export const login = (email, password) => {
 };
 
 export const verifySession = () => {
-  return apiClient.post("/api/auth/verify");
+  return apiClient.get("/api/auth/verify");
 };
 
 

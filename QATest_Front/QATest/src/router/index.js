@@ -3,7 +3,7 @@ import { verifySession } from '@/services/authService'
 import MainLayout from '@/components/Navbars/AdminNavbar.vue'
 import Login from '@/views/auth/Login.vue'
 import Dashboard from '@/views/admin/Dashboard.vue'
-import Enviroments from '@/views/admin/Enviroments.vue'
+import Components from '@/views/admin/Components.vue'
 import Tests from '@/views/admin/Tests.vue'
 import Users from '@/views/admin/Users.vue'
 import Audit from '@/views/admin/Audit.vue'
@@ -19,7 +19,7 @@ const routes = [
     children: [
       { path: 'dashboard', component: Dashboard },
       { path: 'tests', component: Tests },
-      { path: 'environments', component: Enviroments },
+      { path: 'components', component: Components },
       { path: 'users', component: Users },
       { path: 'audit', component: Audit },
       { path: 'roles', component: Roles },

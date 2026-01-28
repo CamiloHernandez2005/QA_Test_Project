@@ -75,21 +75,17 @@
                   </label>
                 </div>
 
-                 <p v-if="error" class="error">{{ error }}</p>
-
+                <p v-if="error" class="error">{{ error }}</p>
 
                 <!-- Sign In -->
                 <div class="text-center">
-
-                    <button
-                      class="bg-slate-800 text-white text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg w-full ease-linear transition-all duration-150"
-                      type="submit"
-                    >
-                      Sign In
-                    </button>
-
+                  <button
+                    class="bg-slate-800 text-white text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg w-full ease-linear transition-all duration-150"
+                    type="submit"
+                  >
+                    Sign In
+                  </button>
                 </div>
-
 
                 <!-- Google -->
                 <div class="text-center mt-3">
@@ -126,29 +122,29 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref } from 'vue'
 import AuthNavbar from '@/components/Navbars/AuthNavbar.vue'
 import AuthFootbar from '@/components/Footers/FooterSmall.vue'
 import registerBg2 from '@/assets/img/register_bg_2.png'
 import google from '@/assets/img/google.svg'
-import { useRouter } from "vue-router";
+import { useRouter } from 'vue-router'
 
 import { login } from '@/services/authService'
 
 const email = ref('')
 const password = ref('')
-const error = ref(null);
-const router = useRouter();
+const error = ref(null)
+const router = useRouter()
 
 const handleLogin = async () => {
   error.value = null
 
   try {
-    await login(email.value, password.value)
-    router.push("/admin/dashboard");
-  } catch {
-  error.value = "Invalid credentials :(";
-}
+    const res = await login(email.value, password.value)
+    router.push('/admin/dashboard')
+  } catch (err) {
+    error.value = 'Invalid credentials :('
+  }
 }
 </script>
 

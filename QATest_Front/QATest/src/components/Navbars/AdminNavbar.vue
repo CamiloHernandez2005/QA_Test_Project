@@ -71,7 +71,7 @@
     </RouterLink>
 
        <RouterLink
-      to="/admin/environments"
+      to="/admin/components"
       :class="[
         'flex items-center py-2 hover:bg-slate-700 rounded transition-all duration-300 ease-in-out',
         isCollapsed ? 'justify-center' : 'px-3',
