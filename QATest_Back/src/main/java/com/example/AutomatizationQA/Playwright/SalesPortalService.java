@@ -9,8 +9,6 @@ import com.microsoft.playwright.options.WaitUntilState;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Service
 @Slf4j
@@ -51,17 +49,17 @@ public class SalesPortalService {
                 String receipt = processTransaction(page, request);
 
                 log.info("Transacción completada exitosamente para usuario: {}", request.getUsername());
-                return buildSuccessResponse(receipt);
+                return util.buildSuccessResponse(receipt);
 
             } catch (Exception e) {
                 throw new RuntimeException("Error durante la ejecución del test: " + e.getMessage(), e);
             } finally {
-                closeResources(context, browser);
+                util.closeResources(context, browser);
             }
 
         } catch (Exception e) {
-            log.error("Error en test automatizado: {}", e.getMessage(), e);
-            throw new RuntimeException("Error en test automatizado: " + e.getMessage(), e);
+            log.error(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 
@@ -74,10 +72,10 @@ public class SalesPortalService {
         page.navigate(url, new Page.NavigateOptions()
                 .setWaitUntil(WaitUntilState.NETWORKIDLE));
 
-        fillFieldWithRetry(page, "input[name=\"userId\"]", request.getUsername(), "Usuario");
-        fillFieldWithRetry(page, "input[name=\"password\"]", request.getPassword(), "Contraseña");
+        util.fillFieldWithRetry(page, "input[name=\"userId\"]", request.getUsername(), "Usuario");
+        util.fillFieldWithRetry(page, "input[name=\"password\"]", request.getPassword(), "Contraseña");
 
-        clickWithRetry(page, "button[type=\"submit\"]", "Botón de login");
+        util.clickWithRetry(page, "button[type=\"submit\"]", "Botón de login");
 
         page.waitForLoadState(LoadState.NETWORKIDLE);
     }
@@ -124,8 +122,13 @@ public class SalesPortalService {
 
         selectCarrier(page, request.getCarrier());
 
-        selectProduct(page, request.getProduct());
+        selectProduct(page, request.getProduct(), request.getAmount());
 
+        confirmButton(page);
+
+        if (request.isPhoneNumberEnabled()){
+            enterPhoneNumber(page, request.getPhoneNumber());
+        }
         confirmButton(page);
 
         enterClerkId(page, request.getClerkId());
@@ -146,7 +149,7 @@ public class SalesPortalService {
                 "[role=\"button\"]:has(svg.search-icon)"
         };
 
-        clickWithSelectorOptions(page, searchButtonSelectors, "Botón de búsqueda");
+        util.clickWithSelectorOptions(page, searchButtonSelectors, "Botón de búsqueda");
 
         String[] searchInputSelectors = {
                 "input[placeholder*='Buscar servicios']",
@@ -155,31 +158,49 @@ public class SalesPortalService {
                 "input[name*='search']"
         };
 
-        fillWithSelectorOptions(page, searchInputSelectors, productType, "Campo de búsqueda");
+        util.fillWithSelectorOptions(page, searchInputSelectors, productType, "Campo de búsqueda");
 
-        clickWithRetry(page, "button[tabindex=\"0\"], button[type=\"submit\"]", "Acción de búsqueda");
+        util.clickWithRetry(page, "button[tabindex=\"0\"], button[type=\"submit\"]", "Acción de búsqueda");
 
         page.waitForLoadState(LoadState.NETWORKIDLE);
+
     }
 
     private void selectCarrier(Page page, String carrier) {
         log.debug("Seleccionando carrier: {}", carrier);
 
-        waitForAnyText(page,
+        util.waitForAnyText(page,
                 new String[]{"Selecciona el operador", "Select the carrier"},
                 "Texto de selección de carrier");
 
         clickCarrierOrProduct(page, carrier, "Carrier");
     }
 
-    private void selectProduct(Page page, String product) {
+    private void selectProduct(Page page, String product, String amount) {
         log.debug("Seleccionando producto: {}", product);
 
-        waitForAnyText(page,
+        util.waitForAnyText(page,
                 new String[]{"Selecciona el producto", "Select the product"},
                 "Texto de selección de producto");
 
         clickCarrierOrProduct(page, product, "Producto");
+
+        String[] amountSelectors = {
+                "div[id=\"input-variable-amount\"]",
+                "input[type=\"text\"]",
+                "input[inputmode*=\"decimal\"]",
+        };
+        boolean filled = util.tryFillAmount(
+                page,
+                amountSelectors,
+                amount,
+                "Campo de monto de la transacción"
+        );
+
+        if (!filled) {
+            log.debug("Producto sin rango de precio, se omite el monto");
+        }
+
     }
 
     private void clickCarrierOrProduct(Page page, String item, String type) {
@@ -191,14 +212,39 @@ public class SalesPortalService {
                 STR."[data-tooltip*=\"\{item}\"]"
         };
 
-        clickWithSelectorOptions(page, selectors, type + ": " + item);
+        util.clickWithSelectorOptions(page, selectors, type + ": " + item);
+
     }
 
+
+    private void enterPhoneNumber(Page page, String phoneNumber) {
+        log.debug("Ingresando numero de telefono: {}", phoneNumber);
+
+        util.waitForAnyText(page,
+                new String[]{"Número Móvil", "Mobile Number"},
+                "Número de teléfono");
+
+        String[] phoneSelectors = {
+                "input[id=phone]",
+                "input[inputmode=numeric]",
+                "input[maxlength=14]",
+        };
+
+        util.fillWithSelectorOptions(page, phoneSelectors, phoneNumber, "Campo número de telefono");
+
+        String[] phoneConfirmSelectors = {
+                "input[id=\"confirm-phone\"]",
+                "input[inputmode=\"numeric\"]",
+        };
+
+        util.fillWithSelectorOptions(page, phoneConfirmSelectors, phoneNumber, "Campo número de telefono");
+
+    }
 
     private void enterClerkId(Page page, String clerkId) {
         log.debug("Ingresando ID de empleado: {}", clerkId);
 
-        waitForAnyText(page,
+        util.waitForAnyText(page,
                 new String[]{"ID del empleado", "Clerk ID"},
                 "Texto de ID de Empleado");
 
@@ -209,7 +255,7 @@ public class SalesPortalService {
                 "input[placeholder*=\"ID\"]"
         };
 
-        fillWithSelectorOptions(page, passwordSelectors, clerkId, "Campo de ID de empleado");
+        util.fillWithSelectorOptions(page, passwordSelectors, clerkId, "Campo de ID de empleado");
     }
 
     private void confirmButton(Page page) {
@@ -222,7 +268,7 @@ public class SalesPortalService {
                 "button[type=\"submit\"]"
         };
 
-        clickWithSelectorOptions(page, confirmSelectors, "Botón de confirmar transacción");
+        util.clickWithSelectorOptions(page, confirmSelectors, "Botón de confirmar transacción");
 
         page.waitForLoadState(LoadState.NETWORKIDLE);
     }
@@ -257,120 +303,4 @@ public class SalesPortalService {
         return receipt;
     }
 
-    // ============ MÉTODOS DE UTILIDAD ============
-
-    private void fillFieldWithRetry(Page page, String selector, String value, String fieldName) {
-        int maxAttempts = 3;
-        for (int attempt = 1; attempt <= maxAttempts; attempt++) {
-            try {
-                page.locator(selector).fill(value);
-                log.debug("{} completado exitosamente", fieldName);
-                return;
-            } catch (Exception e) {
-                if (attempt == maxAttempts) {
-                    throw new RuntimeException("Error al completar " + fieldName + ": " + e.getMessage(), e);
-                }
-                log.warn("Intento {} fallado para {}, reintentando...", attempt, fieldName);
-                waitBriefly();
-            }
-        }
-    }
-
-    private void clickWithRetry(Page page, String selector, String buttonName) {
-        int maxAttempts = 3;
-        for (int attempt = 1; attempt <= maxAttempts; attempt++) {
-            try {
-                page.locator(selector).click(new Locator.ClickOptions()
-                        .setTimeout(util.SHORT_TIMEOUT.toMillis()));
-                log.debug("{} clickeado exitosamente", buttonName);
-                return;
-            } catch (Exception e) {
-                if (attempt == maxAttempts) {
-                    throw new RuntimeException("Error al hacer click en " + buttonName + ": " + e.getMessage(), e);
-                }
-                log.warn("Intento {} fallado para {}, reintentando...", attempt, buttonName);
-                waitBriefly();
-            }
-        }
-    }
-
-    private void clickWithSelectorOptions(Page page, String[] selectors, String elementName) {
-        for (String selector : selectors) {
-            try {
-                page.locator(selector).first().click(new Locator.ClickOptions()
-                        .setTimeout(util.SHORT_TIMEOUT.toMillis()));
-                log.debug("{} encontrado con selector: {}", elementName, selector);
-                return;
-            } catch (Exception e) {
-                // Continuar con siguiente selector
-            }
-        }
-        throw new RuntimeException("No se pudo encontrar " + elementName + " con ningún selector");
-    }
-
-    private void fillWithSelectorOptions(Page page, String[] selectors, String value, String fieldName) {
-        for (String selector : selectors) {
-            try {
-                page.locator(selector).first().fill(value);
-                log.debug("{} completado con selector: {}", fieldName, selector);
-                return;
-            } catch (Exception e) {
-                // Continuar con siguiente selector
-            }
-        }
-        throw new RuntimeException("No se pudo completar " + fieldName + " con ningún selector");
-    }
-
-    private void waitForAnyText(Page page, String[] texts, String description) {
-        for (String text : texts) {
-            try {
-                page.getByText(text, new Page.GetByTextOptions().setExact(false))
-                        .waitFor(new Locator.WaitForOptions()
-                                .setState(WaitForSelectorState.VISIBLE)
-                                .setTimeout(util.DEFAULT_TIMEOUT.toMillis()));
-                log.debug("{} encontrado con texto: {}", description, text);
-                return;
-            } catch (Exception e) {
-                // Continuar con siguiente texto
-            }
-        }
-        throw new RuntimeException("No se encontró " + description);
-    }
-
-    private void waitBriefly() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-    }
-
-    private void closeResources(BrowserContext context, Browser browser) {
-        try {
-            if (context != null) {
-                context.close();
-            }
-        } catch (Exception e) {
-            log.warn("Error al cerrar contexto: {}", e.getMessage());
-        }
-
-        try {
-            if (browser != null) {
-                browser.close();
-            }
-        } catch (Exception e) {
-            log.warn("Error al cerrar navegador: {}", e.getMessage());
-        }
-    }
-
-    private String buildSuccessResponse(String receipt) {
-        return String.format("""
-            ✅ TRANSACCIÓN COMPLETADA EXITOSAMENTE
-            📋 RECIBO:
-            %s
-            ⏰ FECHA: %s
-            """,
-                receipt,
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-    }
 }

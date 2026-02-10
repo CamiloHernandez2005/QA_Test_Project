@@ -26,7 +26,7 @@ public class TestController {
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error durante ejecución: " + e.getMessage());
+                    .body(e.getMessage());
         }
     }
     @PostMapping("/sp")
@@ -36,7 +36,7 @@ public class TestController {
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error durante ejecución: " + e.getMessage());
+                    .body(e.getMessage());
         }
     }
 
