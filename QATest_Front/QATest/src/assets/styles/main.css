@@ -1,6 +1,17 @@
 @import "tailwindcss";
 @import "tailwindcss-primeui";
 
+/* Definir la fuente con Tailwind v4 */
+@theme {
+  --font-sans: "Poppins", sans-serif;
+}
+
+/* Aplicar la fuente a toda la página */
+@layer base {
+  body {
+    @apply font-sans;
+  }
+}
 
 /* Primary and Surface Palettes */
 :root {
@@ -49,14 +60,7 @@
     --p-text-hover-muted-color: var(--p-surface-600);
 }
 
-/*
- * Dark Mode
- * Defaults to system, change the dark variant selector to match the CSS variable configuration.
- * For example;
- * @custom-variant dark (&:where(.app-dark, .app-dark *));
- * should match to;
- * :root[class="app-dark"]
-*/
+/* Dark Mode */
 @media (prefers-color-scheme: dark) {
     :root {
         --p-primary-color: var(--p-primary-400);
@@ -76,4 +80,3 @@
         --p-text-hover-muted-color: var(--p-surface-300);
     }
 }
-
