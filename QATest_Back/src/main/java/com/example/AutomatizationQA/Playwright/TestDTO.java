@@ -9,7 +9,7 @@ public class TestDTO {
     private Long regionId;
     private String username;
     private String password;
-    private String productType;
+    private ProductFlowType productFlowType;
     private String carrier;
     private String product;
     private boolean phoneNumberEnabled;

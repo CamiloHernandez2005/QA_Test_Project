@@ -118,7 +118,7 @@ public class SalesPortalService {
     }
 
     private String processTransaction(Page page, TestDTO request) {
-        searchProduct(page, request.getProductType());
+        searchProduct(page, String.valueOf(request.getProductFlowType()));
 
         selectCarrier(page, request.getCarrier());
 
@@ -137,6 +137,44 @@ public class SalesPortalService {
 
         return getTransactionReceipt(page);
     }
+//    private String processTransaction(Page page, TestDTO request) {
+//
+//        return switch (request.getProductFlowType()) {
+//            case TOPUP -> processTopUp(page, request);
+//            case PIN -> processPin(page, request);
+//            case BILL_PAYMENT -> processBillPayment(page, request);
+//        };
+//    }
+
+//    private String processBaseFlow(
+//            Page page,
+//            TestDTO request,
+//            boolean includePhone,
+//            boolean includeClerk
+//    ) {
+//
+//        searchProduct(page, String.valueOf(request.getProductFlowType()));
+//        selectCarrier(page, request.getCarrier());
+//        selectProduct(page, request.getProduct(), request.getAmount());
+//
+//        confirmButton(page);
+//
+//        if (includePhone) {
+//            enterPhoneNumber(page, request.getPhoneNumber());
+//            confirmButton(page);
+//        }
+//
+//        if (includeClerk) {
+//            enterClerkId(page, request.getClerkId());
+//            confirmButton(page);
+//        }
+//
+//        return getTransactionReceipt(page);
+//    }
+
+//    private String processTopUp(Page page, TestDTO request) {
+//        return processBaseFlow(page, request, true, true);
+//    }
 
     private void searchProduct(Page page, String productType) {
         log.debug("Buscando producto: {}", productType);
@@ -205,11 +243,11 @@ public class SalesPortalService {
 
     private void clickCarrierOrProduct(Page page, String item, String type) {
         String[] selectors = {
-                STR."button[data-pr-tooltip=\"\{item}\"]",
-                STR."button[title=\"\{item}\"]",
-                STR."button:has-text(\"\{item}\")",
-                STR."div[data-pr-tooltip=\"\{item}\"]",
-                STR."[data-tooltip*=\"\{item}\"]"
+                "button[data-pr-tooltip=\"" + item + "\"]",
+                "button[title=\"" + item + "\"]",
+                "button:has-text(\"" + item + "\")",
+                "div[data-pr-tooltip=\"" + item + "\"]",
+                "[data-tooltip*=\"" + item + "\"]"
         };
 
         util.clickWithSelectorOptions(page, selectors, type + ": " + item);
