@@ -15,9 +15,9 @@ import java.time.format.DateTimeFormatter;
 @Slf4j
 public class PlaywrightUtils {
 
-    public static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(15);
-    public static final Duration SHORT_TIMEOUT = Duration.ofSeconds(10);
-    public static final Duration LONG_TIMEOUT = Duration.ofSeconds(20);
+    public static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(10);
+    public static final Duration SHORT_TIMEOUT = Duration.ofSeconds(5);
+    public static final Duration LONG_TIMEOUT = Duration.ofSeconds(15);
 
     public String buildUrl(Region region) {
         return String.format("http://%s:%s%s",
@@ -81,7 +81,7 @@ public class PlaywrightUtils {
     public void clickWithSelectorOptions(Page page, String[] selectors, String elementName) {
         for (String selector : selectors) {
             try {
-                page.locator(selector).first().click(new Locator.ClickOptions()
+                page.locator(selector).click(new Locator.ClickOptions()
                         .setTimeout(SHORT_TIMEOUT.toMillis()));
                 log.debug("{} encontrado con selector: {}", elementName, selector);
                 return;
@@ -117,7 +117,7 @@ public class PlaywrightUtils {
                 page.getByText(text, new Page.GetByTextOptions().setExact(false))
                         .waitFor(new Locator.WaitForOptions()
                                 .setState(WaitForSelectorState.VISIBLE)
-                                .setTimeout(DEFAULT_TIMEOUT.toMillis()));
+                                .setTimeout(SHORT_TIMEOUT.toMillis()));
                 log.debug("{} encontrado con texto: {}", description, text);
                 return;
             } catch (Exception e) {

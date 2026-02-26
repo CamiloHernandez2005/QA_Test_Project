@@ -118,18 +118,19 @@ public class SalesPortalService {
     }
 
     private String processTransaction(Page page, TestDTO request) {
-        searchProduct(page, String.valueOf(request.getProductFlowType()));
+        searchProduct(page, request.getProductFlowType().getDisplayName());
 
         selectCarrier(page, request.getCarrier());
 
         selectProduct(page, request.getProduct(), request.getAmount());
 
-        confirmButton(page);
-
         if (request.isPhoneNumberEnabled()){
             enterPhoneNumber(page, request.getPhoneNumber());
+            confirmButton(page);
+        }else {
+            confirmButton(page);
         }
-        confirmButton(page);
+
 
         enterClerkId(page, request.getClerkId());
 
@@ -150,7 +151,6 @@ public class SalesPortalService {
 //            Page page,
 //            TestDTO request,
 //            boolean includePhone,
-//            boolean includeClerk
 //    ) {
 //
 //        searchProduct(page, String.valueOf(request.getProductFlowType()));
@@ -164,10 +164,9 @@ public class SalesPortalService {
 //            confirmButton(page);
 //        }
 //
-//        if (includeClerk) {
-//            enterClerkId(page, request.getClerkId());
-//            confirmButton(page);
-//        }
+//        enterClerkId(page, request.getClerkId());
+//        confirmButton(page);
+//
 //
 //        return getTransactionReceipt(page);
 //    }
@@ -236,7 +235,7 @@ public class SalesPortalService {
         );
 
         if (!filled) {
-            log.debug("Producto sin rango de precio, se omite el monto");
+                log.debug("Producto sin rango de precio, se omite el monto");
         }
 
     }
