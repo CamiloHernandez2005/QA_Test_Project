@@ -118,6 +118,11 @@
                 <template #body="slotProps">
                   <div class="flex justify-center gap-2">
                     <Button
+                      icon="pi pi-play"
+                      class="p-button-rounded p-button-play p-button-sm"
+                      @click="onDelete(slotProps.data)"
+                    />
+                    <Button
                       icon="pi pi-pencil"
                       class="p-button-rounded p-button-info p-button-sm"
                       @click="onEdit(slotProps.data)"

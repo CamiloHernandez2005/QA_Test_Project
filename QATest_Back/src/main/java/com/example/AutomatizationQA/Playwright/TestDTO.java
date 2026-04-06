@@ -11,6 +11,7 @@ public class TestDTO {
     private String password;
     private ProductFlowType productFlowType;
     private String carrier;
+    private String category;
     private String product;
     private boolean phoneNumberEnabled;
     private boolean clerkIdEnabled;

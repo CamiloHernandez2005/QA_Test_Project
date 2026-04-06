@@ -34,6 +34,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/google").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/health").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/users/create").permitAll()
                         .anyRequest().authenticated()
                 )
 

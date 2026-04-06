@@ -9,15 +9,16 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 
 @Component
 @Slf4j
 public class PlaywrightUtils {
 
-    public static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(10);
-    public static final Duration SHORT_TIMEOUT = Duration.ofSeconds(5);
-    public static final Duration LONG_TIMEOUT = Duration.ofSeconds(15);
+    public static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(3);
+    public static final Duration SHORT_TIMEOUT = Duration.ofSeconds(1);
+    public static final Duration LONG_TIMEOUT = Duration.ofSeconds(5);
 
     public String buildUrl(Region region) {
         return String.format("http://%s:%s%s",
@@ -27,18 +28,22 @@ public class PlaywrightUtils {
     }
 
     public Browser createBrowser(Playwright playwright) {
-        return playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+        return playwright.chromium().launch(new BrowserType.LaunchOptions()
+                .setHeadless(false)
+                .setArgs(Arrays.asList("--start-maximized"))); // Maximizar al abrir);
     }
 
     public Browser.NewContextOptions configureContext() {
         return new Browser.NewContextOptions()
                 .setIgnoreHTTPSErrors(true)
-                .setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36");
+                .setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
+                .setViewportSize(null); // Sin tamaño fijo, usa el tamaño real de la ventana
     }
 
     public void configurePageDefaults(Page page) {
         page.setDefaultTimeout(DEFAULT_TIMEOUT.toMillis());
-        page.setDefaultNavigationTimeout(LONG_TIMEOUT.toMillis());
+        page.setDefaultNavigationTimeout(DEFAULT_TIMEOUT.toMillis());
+
     }
 
     // ============ MÉTODOS DE UTILIDAD ============
@@ -82,7 +87,7 @@ public class PlaywrightUtils {
         for (String selector : selectors) {
             try {
                 page.locator(selector).click(new Locator.ClickOptions()
-                        .setTimeout(SHORT_TIMEOUT.toMillis()));
+                        .setTimeout(DEFAULT_TIMEOUT.toMillis()));
                 log.debug("{} encontrado con selector: {}", elementName, selector);
                 return;
             } catch (Exception e) {
@@ -134,7 +139,7 @@ public class PlaywrightUtils {
 
                 locator.waitFor(new Locator.WaitForOptions()
                         .setState(WaitForSelectorState.VISIBLE)
-                        .setTimeout(1500));
+                        .setTimeout(SHORT_TIMEOUT.toMillis()));
 
                 if (!locator.isEnabled() || !locator.isEditable()) {
                     continue;

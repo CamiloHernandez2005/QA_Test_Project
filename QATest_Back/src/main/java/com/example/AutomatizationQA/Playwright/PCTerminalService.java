@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class TestService {
+public class PCTerminalService {
 
     private final RegionRepository regionRepository;
 
-    public TestService(RegionRepository regionRepository) {
+    public PCTerminalService(RegionRepository regionRepository) {
         this.regionRepository = regionRepository;
     }
 

@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 public class TestController {
 
-    private final TestService testService;
+    private final PCTerminalService pcTerminalService;
     private final SalesPortalService salesPortalService;
 
-    public TestController(TestService testService, SalesPortalService salesPortalService) {
-        this.testService = testService;
+    public TestController(PCTerminalService pcTerminalService, SalesPortalService salesPortalService) {
+        this.pcTerminalService = pcTerminalService;
         this.salesPortalService = salesPortalService;
     }
 
     @PostMapping("/pct")
     public ResponseEntity<String> runPctTest(@RequestBody TestDTO request) {
         try {
-            String result = testService.runPctTest(request);
+            String result = pcTerminalService.runPctTest(request);
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

@@ -9,6 +9,8 @@ import com.microsoft.playwright.options.WaitUntilState;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Locale;
+
 
 @Service
 @Slf4j
@@ -41,7 +43,7 @@ public class SalesPortalService {
 
             try {
                 performLogin(page, url, request);
-
+                Thread.sleep(1000);
                 handleModalDialog(page);
 
                 verifyLoginSuccess(page);
@@ -89,7 +91,7 @@ public class SalesPortalService {
 
             Locator closeButton = page.locator("button[aria-label=\"Close\"], button[aria-label=\"Cerrar\"]");
             closeButton.click(new Locator.ClickOptions()
-                    .setTimeout(util.SHORT_TIMEOUT.toMillis()));
+                    .setTimeout(util.DEFAULT_TIMEOUT.toMillis()));
 
 
             log.debug("Diálogo modal cerrado exitosamente");
@@ -118,17 +120,17 @@ public class SalesPortalService {
     }
 
     private String processTransaction(Page page, TestDTO request) {
-        searchProduct(page, request.getProductFlowType().getDisplayName());
+        searchProduct(page, request.getProductFlowType().getDisplayName(new Locale("es")));
 
         selectCarrier(page, request.getCarrier());
-
+        selectCategory(page, request.getCategory());
         selectProduct(page, request.getProduct(), request.getAmount());
-
+        confirmButton(page);
         if (request.isPhoneNumberEnabled()){
             enterPhoneNumber(page, request.getPhoneNumber());
             confirmButton(page);
         }else {
-            confirmButton(page);
+
         }
 
 
@@ -203,6 +205,7 @@ public class SalesPortalService {
 
     }
 
+
     private void selectCarrier(Page page, String carrier) {
         log.debug("Seleccionando carrier: {}", carrier);
 
@@ -212,13 +215,22 @@ public class SalesPortalService {
 
         clickCarrierOrProduct(page, carrier, "Carrier");
     }
+    private void selectCategory(Page page, String category) {
+        log.debug("Seleccionando categoria: {}", category);
+
+        util.waitForAnyText(page,
+                new String[]{"Seleccione la categoría del servicio que prefieras.", "Choose the category of service you prefer."},
+                "Texto de selección de categoria");
+
+        clickCarrierOrProduct(page, category, "Categoria");
+    }
 
     private void selectProduct(Page page, String product, String amount) {
         log.debug("Seleccionando producto: {}", product);
 
-        util.waitForAnyText(page,
-                new String[]{"Selecciona el producto", "Select the product"},
-                "Texto de selección de producto");
+//        util.waitForAnyText(page,
+//                new String[]{"Selecciona el producto", "Select the product"},
+//                "Texto de selección de producto");
 
         clickCarrierOrProduct(page, product, "Producto");
 
